@@ -1,6 +1,6 @@
 # Milestone 0 findings
 
-Running record of the M0 checks in `docs/V2-PLAN.md` §16. Status: **in progress** (Nov 26, 2026).
+Running record of the M0 checks in `docs/V2-PLAN.md` §16. Status: **complete** (Nov 27, 2026).
 
 | Check | Status | Result |
 |---|---|---|
@@ -30,7 +30,16 @@ Other results from the Project sandbox:
 - Python 3.13, Node 22.23.5, npm 10.9, and Playwright with Chromium all work, so `check-deck.py` can run inside a Project.
 - npm registry, PyPI and GitHub raw are reachable; cdnjs and jsDelivr are blocked (403). Library copies for checking come from npm, which matches the jsDelivr-first choice for Reveal (D23).
 
-**Follow-up check (pending):** whether an ordinary Markdown-only knowledge set (like v1's) is also read through the tool rather than preloaded. If so, the instructions must tell Claude which knowledge files to read at each step (M5).
+**Follow-up check (done, Nov 27):** in Terry's v1 workshop Project (Markdown knowledge only), a new chat also could not see `OUTLINE-CONVENTIONS.md` without opening it. Claude had only the document names and the project instructions, plus three tools:
+- `project_read`: reads one document by path. Short text comes back inline; longer text is saved to a file in the sandbox.
+- `project_search`: returns matching snippets with their source paths.
+- `project_info`: the Project's name, instructions, document list and stats.
+
+Consequences for v2 (D25):
+1. **Knowledge files are never preloaded.** A rule takes effect only when Claude opens the file that holds it. `PROJECT-INSTRUCTIONS.md` must carry a **read map** (which files to open at each workflow step) and keep the always-on rules in the instructions themselves.
+2. **Small, single-purpose files are an advantage**, not just a context saving: Claude opens only what a step needs. The v2 split (TAGS, LAYOUTS, one style, build spec) fits this.
+3. **The Nov 15 retrieval-mode worry no longer applies** in its old form; knowledge size costs nothing until a file is opened.
+4. **Possible cheaper route B:** because `project_read` saves long documents to a sandbox file, a long script in project knowledge may reach disk without Claude retyping it. Test in M2 with the real linter (check the saved file's hash).
 
 ## Network seen from Claude's cloud workspace
 npm registry, PyPI and GitHub raw: reachable. cdnjs and jsDelivr: blocked (403 from the proxy). Same pattern as the inbox-to-todo build, which is why `check-deck.py` serves CDN URLs from local npm copies.

@@ -53,6 +53,7 @@ v2 stays a **Claude Project**: project instructions, knowledge files (rules, sty
 | D19 | 2026-11-26 | Licenses: CC BY 4.0 for documents, MIT for tools. (Q8) |
 | D20 | 2026-11-26 | v2 lives in a new `outline-to-deck` repository; the old repository is tagged `v1-workshop`. (Q9) |
 | D21 | 2026-11-26 | Start with at most half of a section's slides carrying a layout and up to two layouts per slide; revisit in testing. (Q10) |
+| D25 | 2026-11-27 | Project knowledge is read on demand (`project_read`), never preloaded. `PROJECT-INSTRUCTIONS.md` carries a read map naming the files to open at each step, and always-on rules stay in the instructions. See `docs/M0-FINDINGS.md`. |
 | D24 | 2026-11-27 | Tools reach Claude's sandbox as one `deck-tools.zip` attached to the chat (route C). The parser and linter also live in project knowledge so Claude can copy them exactly when the bundle isn't attached (route B). Project knowledge never appears on disk (route A fails). |
 | D23 | 2026-11-26 | Any reliable CDN is fine, and the two libraries may use different ones (amends D15). Reveal.js loads from jsDelivr first, because its files are byte-identical to the npm copies `check-deck.py` tests (cdnjs serves its own minified builds); cdnjs is the fallback. Mermaid loads from cdnjs first (identical to npm), jsDelivr second. Order is stored in `tools/pins.json`. |
 | D22 | 2026-11-26 | Mermaid's `look` is a per-style setting. Base and Field Guide use `classic` (the new look adds node shadows, which Field Guide forbids). See `docs/M0-FINDINGS.md`. |
@@ -470,7 +471,7 @@ v1's checker never ran in the Project because it wasn't uploaded, and it isn't y
 - **Step B and C reports** list layouts and diagrams added, alongside callouts and slide types.
 - **Steps F and G** use the assembler and checker and write `OUTPUT-NOTES.md`; step H patches it.
 - **Style switch** becomes: set the style in BRIEF.md, run the linter for degrade warnings, rebuild.
-- **`PROJECT-INSTRUCTIONS.md`:** knowledge list updated (`TAGS.md`, `LAYOUTS.md`, `OUTPUT-NOTES.md`, base style); "only use tags in `TAGS.md`"; always-on rules stay in the instructions (gate, attribution, never invent data).
+- **`PROJECT-INSTRUCTIONS.md`:** a read map (D25) naming the knowledge files Claude opens at each step; knowledge list updated (`TAGS.md`, `LAYOUTS.md`, `OUTPUT-NOTES.md`, base style); "only use tags in `TAGS.md`"; always-on rules stay in the instructions (gate, attribution, never invent data).
 - **`BRIEF.md`:** new fields for layout use, build-animation default and the Sources slide.
 - **`PROMPTS.md`:** stays at the root for manual mode, with prompts 2, 4, 6, 7, 8 and 9 updated. The teaching narrative moves to `teaching/`.
 
