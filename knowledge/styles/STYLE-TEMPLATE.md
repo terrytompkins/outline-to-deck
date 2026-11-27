@@ -37,6 +37,7 @@ Shape and type tokens, if changed:
 |---|---|
 | `--radius` | |
 | `--outline-width` | |
+| `--outline-color` | |
 | `--shadow` | |
 | `--font-heading` | |
 | `--font-body` | |

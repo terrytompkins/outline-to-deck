@@ -49,7 +49,8 @@ One set per canonical callout type: the color (tab and icon background), the tin
 | Token | Base value | Use |
 |---|---|---|
 | `--radius` | `10px` | Panels, cards, layout items |
-| `--outline-width` | `0px` | Outline on panels, cards and layout items (Base uses fills, not outlines) |
+| `--outline-width` | `0px` | Outline on panels, cards, chips and layout items (Base uses fills, not outlines) |
+| `--outline-color` | `#DDE1E6` (same as `--line`) | Color of those outlines |
 | `--shadow` | `none` | Shadow on panels, cards and layout items |
 | `--font-heading` | `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif` | Headings, labels, badges |
 | `--font-body` | same as heading | Body text, tables, footers |
@@ -86,12 +87,12 @@ All text roles meet 4.5:1 on the backgrounds they are used on (checked Nov 27, 2
 - **Sources slide** (when `BRIEF.md` asks): titled "Sources", every footer source once, grouped by section, in `--caption` links.
 
 ## 6. Callouts
-Syntax and types are in `TAGS.md` §5. Every callout renders as a `--callout-<type>-tint` panel with `--radius` corners and a tab on the left in `--callout-<type>`, holding the icon. The label (or title) is bold in `--callout-<type>-text`, then the text in `--ink`. The tab is part of the panel's shape, not a decorative stripe. Labels and icons come from `TAGS.md`. An alias (`IMPORTANT`, `WARNING`, `CAUTION`) uses its canonical type's colors and icon with its own word as the label.
+Syntax and types are in `TAGS.md` §5. Every callout renders as a `--callout-<type>-tint` panel with `--radius` corners, an `--outline-width` outline in `--outline-color`, `--shadow`, and a tab on the left in `--callout-<type>` holding the icon. The label (or title) is bold in `--callout-<type>-text`, then the text in `--ink`. The tab is part of the panel's shape, not a decorative stripe. Labels and icons come from `TAGS.md`. An alias (`IMPORTANT`, `WARNING`, `CAUTION`) uses its canonical type's colors and icon with its own word as the label.
 
 ## 7. Slide types
 Structure is in `TAGS.md` §6. Base specifics:
 - **`[Try it yourself]`:** top-right badge on `--accent` with a compass icon and "Try it yourself" in `--on-accent`. Steps are numbered circles in `--accent` joined by a `--line` line; the outcome panel is `--callout-fieldnote-tint`.
-- **`[Quick check]`:** "Quick check" label in `--accent` with a question-mark icon. Options as `--surface` cards with a 1px `--line` border; the answer in a `--accent-tint` panel.
+- **`[Quick check]`:** "Quick check" label in `--accent` with a question-mark icon. Options as `--surface` cards with a 1px `--line` border (or the style's outline, if wider); the answer in a `--accent-tint` panel.
 - **`[Myth vs fact]`:** myth cards in `--callout-watchout-tint` with an ×; fact cards in `--callout-fieldnote-tint` with a ✓.
 - **`[Recap]`:** label "Recap"; points as a checklist with `--callout-fieldnote` check icons; footer line "Next: [section title]".
 - **`[Quote]`:** the quotation at 1.1em in `--ink` with a large `--accent` opening quotation mark; attribution in `--caption` below.
@@ -100,7 +101,7 @@ Structure is in `TAGS.md` §6. Base specifics:
 
 ## 8. Layouts
 Names, data shapes and fallbacks are in `LAYOUTS.md`. Base renders every layout with the roles above:
-- **Items:** `--accent-tint` fill, `--ink` text, `--radius` corners, `--outline-width` outline in `--line`, `--shadow`.
+- **Items:** `--accent-tint` fill, `--ink` text, `--radius` corners, an `--outline-width` outline in `--outline-color`, and `--shadow`.
 - **The emphasized item** (a fully bold bullet): `--emphasis` fill, `--on-emphasis` text.
 - **Labels** bold; **details** regular, on the line below the label.
 - **Connectors and arrows:** `--connector`, 2px.
