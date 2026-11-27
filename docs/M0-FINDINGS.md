@@ -13,8 +13,24 @@ Running record of the M0 checks in `docs/V2-PLAN.md` §16. Status: **in progress
 | Pins file and SRI hashes | Done | All 10 URLs (cdnjs and jsDelivr for 5 files) download; sha384 hashes stored in `tools/pins.json` (Terry, Nov 26). jsDelivr files are byte-identical to npm. cdnjs serves its own minified builds of Reveal's `reveal.css`, `reveal.min.js` and `plugin/notes.min.js` (sizes differ from npm); its `reset.css` and Mermaid file match npm. |
 | cdnjs has Mermaid 12.3.0 `mermaid.min.js`? | Done | Yes, 5,537,838 bytes, identical to npm. |
 | CDN order | Done | Reveal: jsDelivr first, cdnjs fallback. Mermaid: cdnjs first, jsDelivr fallback (D23). Every file a deck loads first is then byte-identical to what `check-deck.py` tests. |
-| Sandbox route for tools in a Project (§9.3) | Pending | Test kit sent to Terry (`o2d-m0-project-test-kit.zip`). |
-| Project-knowledge size | Pending | Optional step 7 of the test kit. |
+| Sandbox route for tools in a Project (§9.3) | Done | Route C chosen (D24). Details below. |
+| Project-knowledge size | Replaced | The test showed knowledge files are read through a tool, not preloaded (below). A follow-up check in a real Project replaces the size measurement. |
+
+## Project sandbox test (Nov 27, 2026)
+Run by Terry in a throwaway Project with the four kit files as project knowledge and `spike-bundle.zip` attached to the chat. Every hash and marker Claude reported matches the originals.
+
+| Route | Result |
+|---|---|
+| A. Project knowledge on disk | **No.** No kit file anywhere on disk. `/mnt/project/` exists but holds only an empty `.in_memory` file (the Project's own placeholder, not part of the kit). |
+| B. Claude copies a file it can read | **Yes, exact.** `spike-base.css` (10,742 bytes) and `spike-runtime.js` (2,723 bytes) written by hand matched the originals' SHA-256. |
+| C. Zip attached to the chat | **Yes.** Found under `/mnt/user-data/uploads/`, unzipped and ran; bundle marker correct. |
+
+Other results from the Project sandbox:
+- **Knowledge files were not in Claude's context.** Claude saw only their names and fetched each file with a project-read tool (it came back complete). Rules in knowledge files therefore reach Claude only when it reads them; see the follow-up check below.
+- Python 3.13, Node 22.23.5, npm 10.9, and Playwright with Chromium all work, so `check-deck.py` can run inside a Project.
+- npm registry, PyPI and GitHub raw are reachable; cdnjs and jsDelivr are blocked (403). Library copies for checking come from npm, which matches the jsDelivr-first choice for Reveal (D23).
+
+**Follow-up check (pending):** whether an ordinary Markdown-only knowledge set (like v1's) is also read through the tool rather than preloaded. If so, the instructions must tell Claude which knowledge files to read at each step (M5).
 
 ## Network seen from Claude's cloud workspace
 npm registry, PyPI and GitHub raw: reachable. cdnjs and jsDelivr: blocked (403 from the proxy). Same pattern as the inbox-to-todo build, which is why `check-deck.py` serves CDN URLs from local npm copies.

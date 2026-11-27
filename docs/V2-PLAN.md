@@ -53,6 +53,7 @@ v2 stays a **Claude Project**: project instructions, knowledge files (rules, sty
 | D19 | 2026-11-26 | Licenses: CC BY 4.0 for documents, MIT for tools. (Q8) |
 | D20 | 2026-11-26 | v2 lives in a new `outline-to-deck` repository; the old repository is tagged `v1-workshop`. (Q9) |
 | D21 | 2026-11-26 | Start with at most half of a section's slides carrying a layout and up to two layouts per slide; revisit in testing. (Q10) |
+| D24 | 2026-11-27 | Tools reach Claude's sandbox as one `deck-tools.zip` attached to the chat (route C). The parser and linter also live in project knowledge so Claude can copy them exactly when the bundle isn't attached (route B). Project knowledge never appears on disk (route A fails). |
 | D23 | 2026-11-26 | Any reliable CDN is fine, and the two libraries may use different ones (amends D15). Reveal.js loads from jsDelivr first, because its files are byte-identical to the npm copies `check-deck.py` tests (cdnjs serves its own minified builds); cdnjs is the fallback. Mermaid loads from cdnjs first (identical to npm), jsDelivr second. Order is stored in `tools/pins.json`. |
 | D22 | 2026-11-26 | Mermaid's `look` is a per-style setting. Base and Field Guide use `classic` (the new look adds node shadows, which Field Guide forbids). See `docs/M0-FINDINGS.md`. |
 
@@ -458,7 +459,7 @@ v1's checker never ran in the Project because it wasn't uploaded, and it isn't y
 | B. Copy from context | Claude writes the files it sees in context into the sandbox | Works for short files; error-prone and costly for long JS and CSS |
 | C. Attach a bundle | The presenter attaches one `deck-tools.zip` to the Phase 2 chat | Keeps Phase 2 machinery out of Phase 1's context; one more step for the user |
 
-A likely outcome is C for the runtime and CSS (keeping project knowledge small, which also limits the retrieval-mode risk noted on Nov 15), with the linter in project knowledge so Phase 1 can use it. The plugin later removes this question entirely.
+**Result (Nov 27, D24):** route A doesn't work (knowledge files are never on disk); B and C both deliver exact copies. v2 uses **C**: one `deck-tools.zip` (parser, linter, assembler, checker, runtime, base CSS, style CSS, pins) attached to any chat that runs tools. **B is the fallback** for the linter only: `outline_parser.py` and `lint-outline.py` also live in project knowledge, small enough for Claude to copy exactly when the bundle isn't attached. The plugin later removes this question entirely. See `docs/M0-FINDINGS.md`.
 
 ---
 
@@ -579,7 +580,8 @@ outline-to-deck/
 | `teaching/README.md` | What the teaching folder holds | Repo | M6 |
 | `LICENSE` | License (Q8) | Repo | M6 |
 | `CHANGELOG.md` | v1 → v2 changes | Repo | M6 |
-| `deck-tools.zip` (built, not committed) | Phase 2 bundle if route C | User attaches | M0/M2 |
+| `deck-tools.zip` (built, not committed) | Tools bundle attached to chats that run tools (D24) | User attaches | M2 |
+| `tools/make-bundle.py` | Builds `deck-tools.zip` from the repo, with a manifest and hashes | Repo | M2 |
 
 ---
 
