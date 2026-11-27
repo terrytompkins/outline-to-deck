@@ -24,7 +24,7 @@ ROOT = os.path.dirname(HERE)
 
 FILES = [
     "tools/outline_parser.py", "tools/lint-outline.py", "tools/assemble-deck.py", "tools/check-deck.py",
-    "tools/pins.json", "runtime/deck.js", "runtime/base.css",
+    "tools/pins.json", "runtime/deck.js", "runtime/base.css", "runtime/layouts.js", "runtime/layouts.css",
     "knowledge/TAGS.md", "knowledge/LAYOUTS.md", "package.json",
 ]
 

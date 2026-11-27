@@ -48,7 +48,7 @@ The first variant listed is the default. The word limits are **starting values**
 - **columns:** each top-level bullet is a column header; its sub-bullets (1–5) are the column. "Items" counts columns.
 - **tree:** exactly one top-level bullet (the root); nesting up to three levels below it. "Items" counts all nodes. Labels only: details are moved to speaker notes.
 - **radial:** exactly one top-level bullet (the center); its sub-bullets are the spokes. "Items" counts spokes.
-- **quad:** exactly four items in reading order (top-left, top-right, bottom-left, bottom-right). With the `axes` variant, `X axis:` and `Y axis:` lines name the axes.
+- **quad:** exactly four items in reading order (top-left, top-right, bottom-left, bottom-right). With the `axes` variant, `X axis:` and `Y axis:` lines name the axes; keep each to about three words, such as `Effort: low → high`.
 - **sets:** one item per circle. An optional `Overlap:` line labels the shared middle.
 
 **Renderer:** `html` layouts are HTML and CSS; `svg` layouts draw their frame in SVG, positioned by the deck runtime, with the labels kept as HTML text on top.
@@ -92,7 +92,7 @@ Claude writes semantic markup; `runtime/base.css`, the style's CSS and `runtime/
 
 - The wrapper has `class="layout layout--NAME"`, `data-layout`, `data-variant` (the default if none was given) and `data-count` (the item count as the linter counts it).
 - Items use `<ol>` for ordered, dated, tree and radial shapes, `<ul>` otherwise. Nested shapes nest `<ul>`/`<ol>` inside the item.
-- `is-key` marks the emphasized item. `data-build` on the wrapper turns items into fragments.
+- `is-key` marks the emphasized item. Options become attributes on the wrapper: `data-build` (items appear one click at a time; `data-build="off"` overrides a deck-wide default) and `data-numbered`.
 - Layout fields become attributes: `data-x-axis`, `data-y-axis`, `data-overlap`.
 - Inline markers render inside `.layout__label` or `.layout__detail` as usual (`.tbd`, `.unverified`).
 

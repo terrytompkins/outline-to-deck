@@ -234,6 +234,14 @@
     return false;
   }
 
+  function clipped(lay) {
+    var t = lay.querySelectorAll('.layout__label, .layout__detail');
+    for (var i = 0; i < t.length; i++) {
+      if (t[i].scrollWidth > t[i].clientWidth + 1 || t[i].scrollHeight > t[i].clientHeight + 1) return true;
+    }
+    return false;
+  }
+
   function fitSlide(s) {
     if (!s || s.querySelector(':scope > section')) return;
     s.style.fontSize = '';
@@ -244,7 +252,7 @@
     $('.layout[data-layout]', s).forEach(function (lay) {
       var impl = Layouts[lay.dataset.layout];
       if (!impl || !impl.compact) return;
-      for (var step = 1; step <= 3 && tooTall(s); step++) {
+      for (var step = 1; step <= 3 && (tooTall(s) || clipped(lay)); step++) {
         if (impl.compact(lay, step)) steps.push(lay.dataset.layout + ':' + step); else break;
       }
     });
