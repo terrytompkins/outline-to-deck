@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Outline to deck: write it, tag it, build it once</title>
+<!-- outline-to-deck v2 | built 2026-11-27 | style base | reveal 6.0.2 | mermaid 12.3.0 | outline v1.0 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/reset.css" integrity="sha384-eEwBkZrOoy1kAZn00sDVAezj2h5GAr6zv/XHy9KFt+7ios1iEkSMZObfrISpChg5" crossorigin="anonymous" onerror="this.onerror=null;this.integrity='sha384-eEwBkZrOoy1kAZn00sDVAezj2h5GAr6zv/XHy9KFt+7ios1iEkSMZObfrISpChg5';this.href='https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reset.css'">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/reveal.css" integrity="sha384-rKClnwfQQ2b7LYSOAhRvm5m4LS7QKciQTAXBpVvr30y6oGB+ZBBXlpDnvFqlv5Eu" crossorigin="anonymous" onerror="this.onerror=null;this.integrity='sha384-y8aVlk0sz+/5/l0RXQJ54TW8lWQ0BNtc1kdL5WbTyVEEwWuscv9mN1FfhK61Oaj1';this.href='https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.css'">
+<style>
+/* ---- runtime/base.css + runtime/layouts.css ---- */
+/* outline-to-deck base.css: the Base style (knowledge/styles/STYLE-BASE.md).
+   Every rule reads role tokens; a style's CSS overrides tokens and adds rules.
+   Never set `position` on `.reveal .slides section` (DECK-BUILD-SPEC pitfall 1). */
+
+:root{
+  /* Required roles */
+  --ink:#1F2933; --surface:#FFFFFF; --surface-alt:#F4F6FA; --line:#DDE1E6; --caption:#5F6B76;
+  --accent:#3B5BDB; --accent-tint:#E8ECFB; --on-accent:#FFFFFF; --connector:#5F6B76;
+  --emphasis:#2B44A8; --on-emphasis:#FFFFFF;
+  --series-1:#3B5BDB; --series-2:#7C93E8; --series-3:#B7791F; --series-4:#C0392B; --series-5:#2F855A;
+  /* Callout roles: color, tint, label text, icon on the tab */
+  --callout-note:#3B5BDB; --callout-note-tint:#E8ECFB; --callout-note-text:#2B44A8; --callout-note-icon:#FFFFFF;
+  --callout-tip:#B7791F; --callout-tip-tint:#FDF2DE; --callout-tip-text:#7A5200; --callout-tip-icon:var(--ink);
+  --callout-remember:#6741D9; --callout-remember-tint:#F0EBFC; --callout-remember-text:#5232B8; --callout-remember-icon:#FFFFFF;
+  --callout-watchout:#C0392B; --callout-watchout-tint:#FBE7E4; --callout-watchout-text:#A12E22; --callout-watchout-icon:#FFFFFF;
+  --callout-underthehood:#4B5563; --callout-underthehood-tint:#EEF0F3; --callout-underthehood-text:#3F4752; --callout-underthehood-icon:#FFFFFF;
+  --callout-fieldnote:#2F855A; --callout-fieldnote-tint:#E6F4EC; --callout-fieldnote-text:#22663F; --callout-fieldnote-icon:#FFFFFF;
+  /* Shape and type */
+  --radius:10px; --outline-width:0px; --outline-color:var(--line); --shadow:none;
+  --font-heading:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-code:ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
+  --h2-size:1.3em;
+  --mermaid-look:"classic";
+  /* --mermaid-border (node outline color; default --accent) and --mermaid-stroke-width (e.g. 2.5px) are optional */
+  /* Labels (a style may override any of these) */
+  --label-note:"Note"; --label-tip:"Tip"; --label-remember:"Remember"; --label-watchout:"Watch out";
+  --label-underthehood:"Under the hood"; --label-fieldnote:"Field note";
+  --label-important:"Important"; --label-warning:"Warning"; --label-caution:"Caution";
+  --label-quick-check:"Quick check"; --label-myth-vs-fact:"Myth vs fact"; --label-recap:"Recap";
+  --label-recap-next:"Next:"; --label-try-it-yourself:"Try it yourself"; --label-outcome:"You should see";
+  --label-answer:"Answer:"; --label-more:"more below"; --label-backup:"Backup:"; --label-back:"Back";
+  --label-self-guided:"self-guided"; --label-illustrative:"Illustrative, not measured data.";
+  /* Reveal's own variables */
+  --r-background-color:var(--surface); --r-main-color:var(--ink); --r-heading-color:var(--ink);
+  --r-main-font:var(--font-body); --r-heading-font:var(--font-heading); --r-main-font-size:34px;
+  --r-link-color:var(--accent); --r-link-color-hover:var(--emphasis);
+}
+
+/* ---------- Slides and type ---------- */
+html,body,.reveal-viewport{background:var(--surface)}
+.reveal{font-family:var(--font-body);color:var(--ink);font-size:34px}
+.reveal .slides{text-align:left}
+.reveal .slides section{height:100%;box-sizing:border-box;padding:40px 56px 72px}
+.reveal .slides>section.stack{padding:0}
+.reveal .slides section.topic{background:var(--surface-alt)}
+.reveal h1,.reveal h2,.reveal h3,.reveal h4{font-family:var(--font-heading);text-transform:none;letter-spacing:-.01em;color:var(--ink);font-weight:700}
+.reveal h1{font-size:1.8em;line-height:1.1;margin:0 0 .4em;max-width:15em}
+.reveal h2{font-size:var(--h2-size);line-height:1.18;margin:0 0 .6em;display:flex;align-items:center}
+.reveal h3,.reveal h4{font-size:1.05em;line-height:1.25;margin:0 0 .6em;display:flex;align-items:center}
+.reveal p{font-size:.7em;line-height:1.45;margin:.35em 0}
+.reveal ul,.reveal ol{display:block;margin:0 0 0 1.1em;font-size:.7em;line-height:1.45}
+.reveal li{margin:.35em 0}
+.reveal li>ul,.reveal li>ol{font-size:1em;margin-top:.2em}
+.reveal ul{list-style:none;margin-left:.2em}
+.reveal ul>li{position:relative;padding-left:1.1em}
+.reveal ul>li::before{content:"";position:absolute;left:0;top:.5em;width:.42em;height:.42em;border-radius:50%;border:2px solid var(--accent)}
+.reveal ol>li::marker{color:var(--accent);font-weight:700}
+.reveal code{font-family:var(--font-code);font-size:.88em;background:var(--surface-alt);padding:.05em .3em;border-radius:3px}
+.reveal .topic code{background:var(--surface)}
+.reveal a{color:var(--accent);border-bottom:1px solid currentColor;text-decoration:none}
+.reveal em{font-style:italic}
+.reveal strong,.reveal b{font-weight:700}
+
+/* ---------- Number chips (added by the runtime from data-number) ---------- */
+.reveal .marker{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:1.6em;height:1.6em;padding:0 .3em;margin-right:.55em;background:var(--accent);color:var(--on-accent);font-size:.8em;font-weight:700;border-radius:6px;box-sizing:border-box}
+.reveal .num{flex:none;display:inline-block;min-width:1.7em;padding:0 .35em;margin-right:.55em;border-radius:5px;background:var(--accent-tint);color:var(--accent);font-size:.62em;font-weight:700;line-height:1.75;text-align:center}
+
+/* ---------- Title slide ---------- */
+.reveal .slides section.cover{padding:200px 140px 72px 96px}
+.reveal .cover .series{font-size:.7em;color:var(--caption);font-weight:700;margin:0 0 1em;position:relative}
+.reveal .cover .series::before{content:"";display:block;width:3em;height:4px;background:var(--accent);margin-bottom:.8em;border-radius:2px}
+.reveal .cover h1,.reveal .cover .lead,.reveal .cover .presenter{position:relative}
+.reveal .cover .lead{color:var(--caption);font-size:.86em;max-width:26em}
+.reveal .cover .presenter{font-size:.6em;color:var(--caption);margin-top:1.2em}
+.reveal .cover .decor{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- Agenda ---------- */
+.reveal ol.agenda-list{list-style:none;margin:.4em 0 0;font-size:.8em;display:grid;gap:.55em}
+.reveal ol.agenda-list li{margin:0;padding:0}
+.reveal ol.agenda-list li::before{display:none}
+.reveal ol.agenda-list a{display:flex;align-items:center;color:var(--ink);border:none;padding:.35em .5em;border-radius:8px}
+.reveal ol.agenda-list a:hover{background:var(--accent-tint)}
+.reveal ol.agenda-list .marker{font-size:.9em}
+.reveal ol.agenda-list .sg{margin-left:.8em;font-size:14px;color:var(--caption);font-weight:400}
+
+/* ---------- Chrome: footer, page number, more cue, links ---------- */
+.reveal footer{position:absolute;left:56px;right:240px;bottom:22px;font-size:14px;color:var(--caption);display:flex;flex-wrap:wrap;gap:.2em 1.4em;line-height:1.5}
+.reveal footer .asof{color:var(--accent);font-weight:700;white-space:nowrap}
+.reveal footer a{color:var(--caption);border-bottom:1px dotted var(--caption)}
+.reveal .pgnum{position:absolute;right:120px;bottom:22px;font-size:14px;color:var(--caption);font-variant-numeric:tabular-nums}
+.reveal .more{position:absolute;top:30px;right:56px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--caption)}
+.reveal .more .ic{width:16px;height:16px}
+.reveal .backup-link,.reveal .back-link{position:absolute;bottom:48px;right:56px;font-size:14px;color:var(--caption);border-bottom:1px dotted var(--caption)}
+.reveal .back-link{top:30px;bottom:auto}
+.reveal .ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- Content markers ---------- */
+.reveal .tbd{display:inline-block;font-size:.85em;color:var(--callout-watchout-text);background:var(--callout-watchout-tint);border:2px dashed var(--callout-watchout);border-radius:5px;padding:0 .4em;font-weight:700}
+.reveal .unverified{display:inline-block;font-size:.72em;color:var(--callout-underthehood-text);background:var(--callout-underthehood-tint);border-radius:999px;padding:.05em .6em;vertical-align:.1em;font-weight:700}
+
+/* ---------- Callouts (the runtime builds the tab, icon and label) ---------- */
+.reveal .callout{--c:var(--callout-note);--ct:var(--callout-note-tint);--cx:var(--callout-note-text);--ci:var(--callout-note-icon);
+  display:flex;align-items:stretch;margin:.8em 0 0;border-radius:var(--radius);overflow:hidden;font-size:1em;
+  border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow)}
+.reveal .callout--tip{--c:var(--callout-tip);--ct:var(--callout-tip-tint);--cx:var(--callout-tip-text);--ci:var(--callout-tip-icon)}
+.reveal .callout--remember{--c:var(--callout-remember);--ct:var(--callout-remember-tint);--cx:var(--callout-remember-text);--ci:var(--callout-remember-icon)}
+.reveal .callout--watchout{--c:var(--callout-watchout);--ct:var(--callout-watchout-tint);--cx:var(--callout-watchout-text);--ci:var(--callout-watchout-icon)}
+.reveal .callout--underthehood{--c:var(--callout-underthehood);--ct:var(--callout-underthehood-tint);--cx:var(--callout-underthehood-text);--ci:var(--callout-underthehood-icon)}
+.reveal .callout--fieldnote{--c:var(--callout-fieldnote);--ct:var(--callout-fieldnote-tint);--cx:var(--callout-fieldnote-text);--ci:var(--callout-fieldnote-icon)}
+.reveal .callout__tab{display:flex;align-items:center;justify-content:center;width:62px;flex:none;background:var(--c);color:var(--ci)}
+.reveal .callout__tab .ic{width:30px;height:30px}
+.reveal .callout__body{padding:.5em .9em .55em;flex:1;background:var(--ct)}
+.reveal .callout__label{display:block;font-size:.62em;margin-bottom:.1em;color:var(--cx);font-weight:700}
+.reveal .callout__body p,.reveal .callout__body li{font-size:.66em;margin:0}
+.reveal .callout__body ul,.reveal .callout__body ol{font-size:1em}
+
+/* ---------- Slide types ---------- */
+.reveal .st-label{display:flex;align-items:center;gap:.4em;font-size:.5em;font-weight:700;margin:0 0 .5em;color:var(--accent)}
+.reveal .st-label .ic{width:1.3em;height:1.3em}
+/* Quick check */
+.reveal .question{font-size:.9em;line-height:1.3;font-weight:700;margin:.2em 0 .7em;max-width:24em}
+.reveal ol.options{list-style:none;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(8em,1fr));gap:.6em;font-size:.62em}
+.reveal ol.options>li{margin:0;border:max(1px,var(--outline-width)) solid var(--outline-color);border-radius:var(--radius);padding:.6em .8em;background:var(--surface);box-shadow:var(--shadow)}
+.reveal ol.options>li::before{display:none}
+.reveal .answer{font-size:.66em;background:var(--accent-tint);border-radius:var(--radius);padding:.7em .9em;margin-top:.9em;border:var(--outline-width) solid var(--outline-color)}
+.reveal .answer .answer__label{color:var(--accent);font-weight:700;margin-right:.3em}
+/* Myth vs fact */
+.reveal .myths{display:grid;grid-template-columns:1fr 1fr;gap:.6em 1em}
+.reveal .myth,.reveal .fact{display:flex;gap:.6em;align-items:flex-start;border-radius:var(--radius);padding:.6em .8em;border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow)}
+.reveal .myth{background:var(--callout-watchout-tint);color:var(--callout-watchout-text)}
+.reveal .fact{background:var(--callout-fieldnote-tint)}
+.reveal .myth .ic{color:var(--callout-watchout);width:1.1em;height:1.1em;margin-top:.15em}
+.reveal .fact .ic{color:var(--callout-fieldnote);width:1.1em;height:1.1em;margin-top:.15em}
+.reveal .myth p,.reveal .fact p{margin:0;font-size:.64em}
+.reveal .myth p{font-weight:700}
+/* Recap */
+.reveal ul.checks{margin:.2em 0 0}
+.reveal ul.checks>li{padding-left:1.6em;font-size:1.1em;margin:.55em 0}
+.reveal ul.checks>li::before{display:none}
+.reveal ul.checks .ic{position:absolute;left:0;top:.2em;width:1.05em;height:1.05em;color:var(--callout-fieldnote);stroke-width:2.8}
+.reveal .next{position:absolute;left:56px;bottom:56px;font-size:17px;color:var(--caption);font-weight:700}
+/* Try it yourself */
+.reveal .tiy{position:absolute;top:22px;right:40px;display:flex;align-items:center;gap:.4em;background:var(--accent);color:var(--on-accent);font-size:16px;font-weight:700;padding:.4em .95em;border-radius:999px;border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow)}
+.reveal .tiy .ic{width:1.2em;height:1.2em}
+.reveal .meta{font-size:.6em;color:var(--caption);margin:-.3em 0 .6em}
+.reveal ol.steps{list-style:none;counter-reset:step;margin:0;font-size:.66em}
+.reveal ol.steps>li{counter-increment:step;position:relative;padding:0 0 .55em 2.3em;margin:0}
+.reveal ol.steps>li::before{content:counter(step);position:absolute;left:0;top:-.05em;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:.85em;display:flex;align-items:center;justify-content:center}
+.reveal ol.steps>li:not(:last-child)::after{content:"";position:absolute;left:.66em;top:1.45em;bottom:.1em;width:2px;background:var(--line)}
+.reveal .outcome{font-size:.64em;background:var(--callout-fieldnote-tint);border-radius:var(--radius);padding:.65em .9em;margin-top:.5em;border:var(--outline-width) solid var(--outline-color)}
+.reveal .outcome .outcome__label{color:var(--callout-fieldnote-text);font-weight:700;margin-right:.3em}
+/* Quote */
+.reveal blockquote.quote{width:auto;margin:.6em 0 0;padding:0 0 0 1.6em;box-shadow:none;background:none;font-style:normal;position:relative;border:none}
+.reveal blockquote.quote::before{content:"\201C";position:absolute;left:-.1em;top:-.35em;font-size:3em;line-height:1;color:var(--accent);font-family:Georgia,serif}
+.reveal blockquote.quote p{font-size:1.1em;line-height:1.35;margin:0 0 .6em;color:var(--ink)}
+.reveal blockquote.quote cite{display:block;font-size:.62em;font-style:normal;color:var(--caption);font-weight:700}
+.reveal blockquote.quote .context{font-size:.6em;color:var(--caption)}
+/* Key figure */
+.reveal .key-figure{margin:.4em 0 0}
+.reveal .key-figure .figure{font-size:3em;line-height:1;font-weight:700;color:var(--accent);margin:0 0 .15em;font-variant-numeric:tabular-nums}
+.reveal .key-figure .figure-label{font-size:.8em;font-weight:700;margin:0 0 .4em}
+.reveal .key-figure .context{font-size:.64em;color:var(--caption)}
+/* Appendix and sources */
+.reveal .slides section.appendix-divider{padding-top:260px}
+.reveal .slides section.appendix-divider h2{font-size:1.6em;color:var(--caption)}
+.reveal .sources-list{font-size:.5em;columns:2;column-gap:2em}
+.reveal .sources-list h4{font-size:1em;color:var(--accent);margin:.6em 0 .2em;break-after:avoid}
+.reveal .sources-list ul{font-size:1em;margin:0}
+
+/* ---------- Tables, code, figures ---------- */
+.reveal table{font-size:.6em;border-collapse:collapse;width:100%}
+.reveal th,.reveal td{text-align:left;padding:.42em .8em .42em .3em;border-bottom:1px solid var(--line);vertical-align:top}
+.reveal th{color:var(--accent);border-bottom:2px solid var(--accent)}
+.reveal pre.code{box-shadow:none;width:100%;margin:.2em 0 .6em;font-size:.56em}
+.reveal pre.code code{display:block;background:var(--ink);color:var(--surface);padding:.8em 1em;border-radius:var(--radius);max-height:none;line-height:1.5}
+.reveal figure{margin:.3em 0 0}
+.reveal figure.visual svg{width:100%;height:auto;display:block;max-height:400px}
+.reveal figcaption{font-size:.42em;color:var(--caption);margin-top:.2em}
+.reveal .t-ink{fill:var(--ink);font-family:var(--font-body)} .reveal .t-cap{fill:var(--caption);font-family:var(--font-body)}
+.reveal .t-accent{fill:var(--accent);font-family:var(--font-body)} .reveal .t-warn{fill:var(--callout-watchout);font-family:var(--font-body)}
+.reveal figure.image img{display:block;max-width:100%;max-height:440px;border-radius:var(--radius);margin:0;border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow)}
+.reveal figure.embed iframe{display:block;width:100%;height:440px;border:max(1px,var(--outline-width)) solid var(--outline-color);border-radius:var(--radius);box-shadow:var(--shadow);background:var(--surface)}
+.reveal figure.embed .embed-link{display:inline-block;margin-top:.3em;font-size:14px}
+
+/* ---------- Mermaid (hidden until rendered) ---------- */
+.reveal figure.diagram{text-align:center;margin:.2em 0 0}
+.reveal pre.mermaid{box-shadow:none;background:none;width:100%;margin:0;font-size:20px;text-align:center;white-space:pre}
+.reveal pre.mermaid:not([data-processed]){visibility:hidden;height:0;overflow:hidden}
+.reveal pre.mermaid svg{max-width:100%!important;height:auto;max-height:340px}
+.reveal .diagram-pair{display:grid;grid-template-columns:1fr 1fr;gap:1em}
+
+/* ---------- Reveal controls ---------- */
+.reveal .controls{color:var(--accent)}
+.reveal .progress{color:var(--accent);height:4px}
+
+/* ---------- Print: frames become links ---------- */
+@media print{.reveal figure.embed iframe{display:none}}
+
+/* outline-to-deck layouts.css: the 11 layouts in knowledge/LAYOUTS.md, on role tokens.
+   Sizes are in em and %, so autofit scales them. Layout text is never smaller than body text.
+   .is-compact and .is-wrapped are added by runtime/layouts.js when a slide doesn't fit. */
+
+/* ---------- Common ---------- */
+.reveal .slides section{--layout-fill:var(--accent-tint)}
+.reveal .slides section.topic{--layout-fill:var(--surface)}   /* top-level slides use --surface-alt, often the same as --accent-tint */
+.reveal .layout{font-size:.7em;line-height:1.3;margin:.5em 0 0;position:relative}
+.reveal .layout ul,.reveal .layout ol{font-size:1em;margin:0;padding:0;list-style:none}
+.reveal .layout :where(li){margin:0;padding:0}
+.reveal .layout li::before,.reveal .layout li::after{content:none}
+.reveal .layout ol>li::marker{content:none}
+.reveal .layout__item{background:var(--layout-fill);color:var(--ink);border-radius:var(--radius);
+  border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow);padding:.55em .8em;box-sizing:border-box}
+.reveal .layout__item.is-key{background:var(--emphasis);color:var(--on-emphasis)}
+.reveal .layout__label{display:block;font-weight:700}
+.reveal .layout__detail{display:block}
+.reveal .layout__item.is-key .tbd{color:var(--ink)}
+.reveal .layout__items{display:grid;gap:.55em}
+.reveal .layout.is-compact .layout__items{gap:.3em}
+.reveal .layout.is-compact .layout__item{padding:.35em .6em}
+.reveal .layout__item>:is(ul,ol){margin-top:.3em}
+.reveal .layout__item>:is(ul,ol)>li{position:relative;padding-left:1em;margin:.15em 0}
+.reveal .layout__item>:is(ul,ol)>li::before{content:"";position:absolute;left:.1em;top:.5em;width:.4em;height:.4em;border-radius:50%;background:currentColor;opacity:.6}
+
+/* ---------- list ---------- */
+.reveal .layout--list[data-count="5"] .layout__items,.reveal .layout--list[data-count="6"] .layout__items,
+.reveal .layout--list[data-count="7"] .layout__items,.reveal .layout--list.is-wrapped .layout__items{grid-template-columns:1fr 1fr}
+.reveal .layout--list[data-variant="plain"] .layout__item{background:none;border:none;box-shadow:none;border-left:4px solid var(--accent);border-radius:0;padding:.2em .8em}
+.reveal .layout--list[data-variant="plain"] .layout__item.is-key{border-left-color:var(--emphasis);color:var(--ink);background:var(--layout-fill)}
+.reveal .layout--list.is-numbered .layout__items{counter-reset:li}
+.reveal .layout--list.is-numbered .layout__item{counter-increment:li;position:relative;padding-left:2.6em}
+.reveal .layout--list.is-numbered .layout__item::before{content:counter(li);position:absolute;left:.6em;top:.5em;width:1.5em;height:1.5em;border-radius:50%;
+  background:var(--accent);color:var(--on-accent);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9em}
+
+/* ---------- process ---------- */
+.reveal .layout--process .layout__items{display:flex;gap:0;align-items:stretch}
+.reveal .layout--process .layout__item{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:center}
+/* chevron (default) */
+.reveal .layout--process[data-variant="chevron"] .layout__item{border:none;box-shadow:none;border-radius:0;min-height:4.2em;
+  padding:.6em 1.5em .6em 1.9em;margin-left:-.55em;clip-path:polygon(0 0,calc(100% - 1.1em) 0,100% 50%,calc(100% - 1.1em) 100%,0 100%,1.1em 50%)}
+.reveal .layout--process[data-variant="chevron"] .layout__item:first-child{margin-left:0;padding-left:1em;clip-path:polygon(0 0,calc(100% - 1.1em) 0,100% 50%,calc(100% - 1.1em) 100%,0 100%)}
+/* arrows: boxes joined by arrows */
+.reveal .layout--process[data-variant="arrows"] .layout__items{gap:1.6em}
+.reveal .layout--process[data-variant="arrows"] .layout__item{position:relative}
+.reveal .layout--process[data-variant="arrows"] .layout__item:not(:last-child)::after{content:"";position:absolute;right:-1.35em;top:50%;width:1em;height:1em;
+  background:var(--connector);clip-path:polygon(0 25%,55% 25%,55% 0,100% 50%,55% 100%,55% 75%,0 75%);transform:translateY(-50%)}
+/* steps: numbered circles on a line, text below */
+.reveal .layout--process[data-variant="steps"] .layout__items,.reveal .layout--process.is-wrapped .layout__items{counter-reset:step}
+.reveal .layout--process[data-variant="steps"] .layout__item{background:none;border:none;box-shadow:none;counter-increment:step;
+  justify-content:flex-start;text-align:center;padding:2.6em .4em 0;position:relative}
+.reveal .layout--process[data-variant="steps"] .layout__item::before{content:counter(step);position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:1.9em;height:1.9em;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:700;display:flex;align-items:center;justify-content:center;z-index:1;
+  border:var(--outline-width) solid var(--outline-color)}
+.reveal .layout--process[data-variant="steps"] .layout__item.is-key::before{background:var(--emphasis);color:var(--on-emphasis);box-shadow:0 0 0 .25em var(--accent-tint)}
+.reveal .layout--process[data-variant="steps"] .layout__item.is-key{color:var(--ink)}
+.reveal .layout--process[data-variant="steps"] .layout__item:not(:last-child)::after{content:"";position:absolute;top:.95em;left:50%;width:100%;height:2px;background:var(--connector)}
+/* wrapped (compaction): numbered boxes in rows of 4 */
+.reveal .layout--process.is-wrapped .layout__items{display:grid;grid-template-columns:repeat(4,1fr);gap:.5em}
+.reveal .layout--process.is-wrapped .layout__item,.reveal .layout--process.is-wrapped .layout__item:first-child{margin:0;clip-path:none;border-radius:var(--radius);padding:.5em .7em .5em 2.4em;counter-increment:step;position:relative;
+  border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow);min-height:0;text-align:left;justify-content:flex-start}
+.reveal .layout--process.is-wrapped .layout__item::before{content:counter(step);position:absolute;left:.5em;top:.55em;width:1.4em;height:1.4em;border-radius:50%;
+  background:var(--accent);color:var(--on-accent);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.9em;transform:none}
+.reveal .layout--process.is-wrapped .layout__item::after{content:none}
+
+/* ---------- timeline ---------- */
+.reveal .layout--timeline .layout__items{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:.8em;position:relative;padding-top:2.9em}
+.reveal .layout--timeline .layout__items::before{content:"";position:absolute;left:0;right:0;top:1.9em;height:3px;background:var(--connector)}
+.reveal .layout--timeline .layout__item{background:none;border:none;box-shadow:none;padding:0;position:relative}
+.reveal .layout--timeline .layout__item::before{content:"";position:absolute;top:-1.35em;left:0;width:.9em;height:.9em;border-radius:50%;background:var(--accent);
+  border:3px solid var(--surface);box-shadow:0 0 0 2px var(--accent)}
+.reveal .layout--timeline .layout__item .layout__label{position:absolute;top:-2.9em;left:0;white-space:nowrap;color:var(--accent)}
+.reveal .layout--timeline .layout__item.is-key{color:var(--ink)}
+.reveal .layout--timeline .layout__item.is-key::before{background:var(--emphasis);box-shadow:0 0 0 2px var(--emphasis),0 0 0 .35em var(--accent-tint)}
+.reveal .layout--timeline .layout__item.is-key .layout__label{color:var(--emphasis)}
+/* vertical variant (and wrapped) */
+.reveal .layout--timeline[data-variant="vertical"] .layout__items,.reveal .layout--timeline.is-wrapped .layout__items{grid-auto-flow:row;padding:0 0 0 1.8em;gap:.55em}
+.reveal .layout--timeline[data-variant="vertical"] .layout__items::before,.reveal .layout--timeline.is-wrapped .layout__items::before{left:.42em;right:auto;top:.3em;bottom:.3em;width:3px;height:auto}
+.reveal .layout--timeline[data-variant="vertical"] .layout__item::before,.reveal .layout--timeline.is-wrapped .layout__item::before{top:.25em;left:-1.8em}
+.reveal .layout--timeline[data-variant="vertical"] .layout__item .layout__label,.reveal .layout--timeline.is-wrapped .layout__item .layout__label{position:static;white-space:normal}
+
+/* ---------- columns ---------- */
+.reveal .layout--columns .layout__items{grid-auto-flow:column;grid-auto-columns:1fr;gap:.8em;align-items:stretch}
+.reveal .layout--columns .layout__item{padding:0;overflow:hidden;background:var(--surface)}
+.reveal .layout--columns .layout__item>.layout__label{background:var(--accent);color:var(--on-accent);padding:.45em .8em}
+.reveal .layout--columns .layout__item>.layout__detail{padding:.4em .8em 0}
+.reveal .layout--columns .layout__item>:is(ul,ol){padding:.4em .8em .6em;margin:0}
+.reveal .layout--columns .layout__item.is-key>.layout__label{background:var(--emphasis);color:var(--on-emphasis)}
+.reveal .layout--columns .layout__item.is-key{color:var(--ink);background:var(--surface)}
+.reveal .layout--columns[data-variant="pros-cons"] .layout__item:nth-child(1)>.layout__label{background:var(--callout-fieldnote);color:var(--callout-fieldnote-icon)}
+.reveal .layout--columns[data-variant="pros-cons"] .layout__item:nth-child(2)>.layout__label{background:var(--callout-watchout);color:var(--callout-watchout-icon)}
+.reveal .layout--columns[data-variant="pros-cons"] .layout__item:nth-child(1){background:var(--callout-fieldnote-tint)}
+.reveal .layout--columns[data-variant="pros-cons"] .layout__item:nth-child(2){background:var(--callout-watchout-tint)}
+.reveal .layout--columns[data-variant="before-after"] .layout__item:nth-child(1)>.layout__label{background:var(--caption);color:var(--surface)}
+.reveal .layout--columns[data-variant="before-after"] .layout__item:nth-child(1){background:var(--surface-alt)}
+.reveal .layout--columns.is-wrapped .layout__items{grid-auto-flow:row;grid-template-columns:1fr 1fr}
+
+/* ---------- hierarchy (org chart) ---------- */
+.reveal .layout--hierarchy .layout__items{display:flex;justify-content:center}
+.reveal .layout--hierarchy .layout__item{background:none;border:none;box-shadow:none;padding:0;display:flex;flex-direction:column;align-items:center;position:relative}
+.reveal .layout--hierarchy .layout__label{background:var(--layout-fill);border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow);
+  border-radius:var(--radius);padding:.4em .7em;text-align:center;max-width:9em}
+.reveal .layout--hierarchy .layout__item.is-key>.layout__label{background:var(--emphasis);color:var(--on-emphasis)}
+.reveal .layout--hierarchy .layout__item.is-key{color:var(--ink)}
+.reveal .layout--hierarchy .layout__detail{display:none}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol){display:flex;justify-content:center;padding-top:1.1em;margin:0;position:relative}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)::before{content:"";position:absolute;top:0;left:50%;height:.55em;border-left:2px solid var(--connector)}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li{padding:.55em .35em 0;position:relative;display:flex;flex-direction:column;align-items:center}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li::before{content:"";position:absolute;top:0;left:0;right:0;border-top:2px solid var(--connector);background:none;width:auto;height:0;border-radius:0;opacity:1}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li:first-child::before{left:50%}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li:last-child::before{right:50%}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li:only-child::before{display:none}
+.reveal .layout--hierarchy .layout__item>:is(ul,ol)>li::after{content:"";position:absolute;top:0;left:50%;height:.55em;border-left:2px solid var(--connector)}
+/* left-right variant (and wrapped): an indented tree */
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__items,.reveal .layout--hierarchy.is-wrapped .layout__items{display:block}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item,.reveal .layout--hierarchy.is-wrapped .layout__item{display:block}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__label,.reveal .layout--hierarchy.is-wrapped .layout__label{display:inline-block;text-align:left;max-width:none;margin:.15em 0}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item>:is(ul,ol),.reveal .layout--hierarchy.is-wrapped .layout__item>:is(ul,ol){display:block;padding:0 0 0 1.6em;margin-left:.8em;border-left:2px solid var(--connector)}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item>:is(ul,ol)::before,.reveal .layout--hierarchy.is-wrapped .layout__item>:is(ul,ol)::before{content:none}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item>:is(ul,ol)>li,.reveal .layout--hierarchy.is-wrapped .layout__item>:is(ul,ol)>li{display:block;padding:0;position:relative}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item>:is(ul,ol)>li::before,.reveal .layout--hierarchy.is-wrapped .layout__item>:is(ul,ol)>li::before{left:-1.6em;right:auto;width:1.4em;top:1.05em}
+.reveal .layout--hierarchy[data-variant="left-right"] .layout__item>:is(ul,ol)>li::after,.reveal .layout--hierarchy.is-wrapped .layout__item>:is(ul,ol)>li::after{content:none}
+
+/* ---------- matrix (2x2) ---------- */
+.reveal .layout--matrix .layout__items{grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+.reveal .layout--matrix .layout__item{min-height:3.6em}
+.reveal .layout--matrix[data-variant="axes"]{padding:0 0 1.7em 2.1em}
+.reveal .layout--matrix[data-variant="axes"]::before{content:attr(data-y-axis);position:absolute;left:0;top:0;bottom:1.7em;writing-mode:vertical-rl;transform:rotate(180deg);
+  text-align:center;color:var(--caption);font-weight:700;border-right:2px solid var(--connector);padding-right:.35em;white-space:nowrap}
+.reveal .layout--matrix[data-variant="axes"]::after{content:attr(data-x-axis);position:absolute;left:2.1em;right:0;bottom:0;text-align:center;color:var(--caption);
+  font-weight:700;border-top:2px solid var(--connector);padding-top:.2em}
+
+/* ---------- pyramid and funnel (widths set by the runtime) ---------- */
+.reveal .layout--pyramid .layout__items,.reveal .layout--funnel .layout__items{gap:.25em}
+.reveal .layout--pyramid .layout__item,.reveal .layout--funnel .layout__item{display:grid;grid-template-columns:52% 1fr;gap:1em;align-items:center;
+  background:none;border:none;box-shadow:none;padding:0}
+.reveal .layout--pyramid .layout__label,.reveal .layout--funnel .layout__label{background:var(--layout-fill);text-align:center;padding:.55em 1.2em;justify-self:center;
+  box-sizing:border-box;width:var(--w,100%);clip-path:var(--clip,none)}
+.reveal .layout--pyramid .layout__item.is-key .layout__label,.reveal .layout--funnel .layout__item.is-key .layout__label{background:var(--emphasis);color:var(--on-emphasis)}
+.reveal .layout--pyramid .layout__item.is-key,.reveal .layout--funnel .layout__item.is-key{color:var(--ink)}
+.reveal .layout--pyramid .layout__detail,.reveal .layout--funnel .layout__detail{border-left:3px solid var(--accent);padding-left:.6em}
+
+/* ---------- radial, cycle, venn (frames drawn by the runtime) ---------- */
+.reveal .layout--radial,.reveal .layout--cycle,.reveal .layout--venn{height:12em}
+.reveal .layout--cycle{max-width:30em;margin-left:auto;margin-right:auto}
+.reveal .layout--radial.is-compact,.reveal .layout--cycle.is-compact,.reveal .layout--venn.is-compact{height:10em}
+.reveal .layout__frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.reveal .layout__frame line,.reveal .layout__frame path{stroke:var(--connector);stroke-width:2;fill:none;vector-effect:non-scaling-stroke}
+.reveal .layout__frame .arrow{fill:var(--connector);stroke:none}
+.reveal .layout--radial .layout__items,.reveal .layout--cycle .layout__items,.reveal .layout--venn .layout__items{display:block;position:absolute;inset:0}
+.reveal .layout--radial .layout__items>.layout__item{position:static;background:none;border:none;box-shadow:none;padding:0}
+.reveal .layout--radial .layout__items>.layout__item>:is(ul,ol){position:static;margin:0}
+.reveal .layout--radial .layout__item>:is(ul,ol)>li{position:absolute;transform:translate(-50%,-50%);text-align:center}
+.reveal .layout--radial .layout__item>:is(ul,ol)>li.is-key{background:var(--emphasis);color:var(--on-emphasis)}
+.reveal .layout--radial .layout__items>.layout__item>.layout__label{position:absolute;transform:translate(-50%,-50%);width:7.5em;padding:.9em .5em;border-radius:50%;
+  background:var(--emphasis);color:var(--on-emphasis);border:var(--outline-width) solid var(--outline-color);box-shadow:var(--shadow);z-index:2}
+.reveal .layout--radial .layout__items>.layout__item>.layout__detail{display:none}
+.reveal .layout--radial .layout__item>:is(ul,ol)>li{width:8.5em;background:var(--layout-fill);border-radius:var(--radius);border:var(--outline-width) solid var(--outline-color);
+  box-shadow:var(--shadow);padding:.4em .55em;z-index:2}
+.reveal .layout--radial .layout__item>:is(ul,ol)>li::before{content:none}
+.reveal .layout--cycle .layout__item{position:absolute;transform:translate(-50%,-50%);width:8.5em;text-align:center;z-index:2}
+.reveal .layout--venn .layout__item{position:absolute;transform:translate(-50%,-50%);width:8em;text-align:center;background:none;border:none;box-shadow:none;padding:0;z-index:2}
+.reveal .layout--venn .layout__item.is-key{color:var(--ink)}
+.reveal .layout--venn .layout__item.is-key .layout__label{color:var(--emphasis)}
+.reveal .layout--venn .venn-overlap{position:absolute;transform:translate(-50%,-50%);font-weight:700;text-align:center;width:6em;z-index:2}
+.reveal .layout__frame .venn-set{stroke:var(--accent);stroke-width:2px}
+
+/* ---------- Charts (drawn by runtime/charts.js) ---------- */
+.reveal figure.chart{font-size:.7em;margin:.4em 0 0}
+.reveal figure.chart .chart__title{font-size:1em;font-weight:700;margin:0 0 .4em}
+.reveal figure.chart .chart__svg{display:block;width:100%;height:auto;max-height:420px;overflow:visible}
+.reveal figure.chart table.chart__data{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---- style: base ---- */
+
+</style>
+</head>
+<body>
+<div class="reveal" data-build="off"><div class="slides">
+<!-- O2D:SLIDES-START -->
+<!-- TITLE -->
+<section id="title" class="cover">
+  <div class="cover__card">
+    <p class="series">outline-to-deck showcase</p>
+    <h1>Outline to deck: write it, tag it, build it once</h1>
+    <p class="lead">One Markdown outline, three styles, one self-contained deck.</p>
+  </div>
+  <aside class="notes">Every slide in this deck comes from examples/showcase/OUTLINE.md.</aside>
+</section>
+<!-- AGENDA -->
+<section id="agenda" class="agenda">
+  <h2>Agenda</h2>
+  <ol class="agenda-list">
+    <li data-number="1"><a href="#/s1">Why outline first</a></li>
+    <li data-number="2"><a href="#/s2">Phase 1: the outline</a></li>
+    <li data-number="3"><a href="#/s3">Tags</a></li>
+    <li data-number="4"><a href="#/s4">Layouts</a></li>
+    <li data-number="5"><a href="#/s5">Styles</a></li>
+    <li data-number="6" class="self-guided"><a href="#/s6">Phase 2: the deck</a></li>
+  </ol>
+</section>
+<!-- TOPIC 1: Why outline first -->
+<section id="s1">
+<section class="topic" data-number="1">
+  <h2>Why outline first</h2>
+  <ul><li>Text is cheap to write, revise and re-read; a finished deck is expensive on all three.</li><li>Every "redo the deck" pays for the whole deck again.</li><li>Coding agents are advised to work the same way: plan in text, approve, then build.</li><li>Typical full-deck rebuilds per talk on your team: <span class="tbd">TBD: number of rebuilds per talk</span></li></ul>
+  <div class="callout" data-type="remember"><p>Iterate on the outline. Build the deck once.</p></div>
+  <footer><a href="https://code.claude.com/docs/en/best-practices">Claude Code best practices</a></footer>
+  <aside class="notes">Ask how many times people have rebuilt a deck from scratch in the last month.</aside>
+</section>
+<section data-number="1.1">
+  <h3>The cost of rebuilding</h3>
+  <figure class="visual">
+    <svg viewBox="0 0 1000 300" role="img" aria-label="Cumulative effort over six revisions: outline revisions stay low, full-deck rebuilds climb steeply">
+      <line x1="60" y1="260" x2="960" y2="260" stroke="var(--line)" stroke-width="2"/>
+      <polyline points="60,250 240,244 420,238 600,232 780,226 960,220" fill="none" stroke="var(--accent)" stroke-width="6"/>
+      <polyline points="60,230 240,190 420,150 600,110 780,70 960,30" fill="none" stroke="var(--callout-watchout)" stroke-width="6"/>
+      <text x="960" y="208" text-anchor="end" class="t-accent" font-size="28">Outline revisions</text>
+      <text x="930" y="28" text-anchor="end" class="t-warn" font-size="28">Full-deck rebuilds</text>
+      <text x="60" y="290" class="t-cap" font-size="24">Revision 1</text><text x="960" y="290" text-anchor="end" class="t-cap" font-size="24">Revision 6</text>
+    </svg>
+    <figcaption>Illustrative, not measured data.</figcaption>
+  </figure>
+  <ul><li>Revising an outline touches a few hundred words; revising a built deck means regenerating and re-checking every slide. <span class="unverified">Unverified</span></li></ul>
+  <aside class="notes">Unverified: not measured; based on the size of each artifact.</aside>
+</section>
+<section data-number="1.2" data-type="myth-vs-fact">
+  <h3>What people believe about decks</h3>
+  <div class="myths"><div class="myth"><p>Starting with slides is faster.</p></div><div class="fact"><p>It feels faster, but slides built before the content settles have to be redone when it changes.</p></div><div class="myth"><p>An outline is extra work.</p></div><div class="fact"><p>The outline becomes the deck's structure, speaker notes and source list.</p></div></div>
+</section>
+<section data-number="1.3" data-type="quote">
+  <h3>Content first</h3>
+  <blockquote class="quote"><p>Text is cheap to write, revise and re-read; a generated deck is expensive on all three.</p><cite>outline-to-deck WORKFLOW.md</cite></blockquote>
+  <footer><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/WORKFLOW.md">outline-to-deck: WORKFLOW.md</a></footer>
+</section>
+</section>
+<!-- TOPIC 2: Phase 1: the outline -->
+<section id="s2">
+<section class="topic" data-number="2">
+  <h2>Phase 1: the outline</h2>
+  <div class="layout layout--process" data-layout="process" data-variant="chevron" data-count="4">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Brief</span><span class="layout__detail">who, why, how long</span></li><li class="layout__item"><span class="layout__label">Outline</span><span class="layout__detail">research and write v0.1</span></li><li class="layout__item is-key"><span class="layout__label">Review</span><span class="layout__detail">a fresh chat checks it</span></li><li class="layout__item"><span class="layout__label">Approve</span><span class="layout__detail">record the gate</span></li></ol>
+</div>
+</section>
+<section data-number="2.1">
+  <h3>Structure maps to slides</h3>
+  <figure class="diagram"><pre class="mermaid">
+flowchart LR
+  A[&quot;## 2. Topic&quot;] --&gt; B[&quot;Horizontal slide&quot;]
+  C[&quot;### 2.1 Detail&quot;] --&gt; D[&quot;Vertical slide below it&quot;]
+  E[&quot;Speaker notes line&quot;] --&gt; F[&quot;Presenter view only&quot;]
+  class B,D key
+</pre></figure>
+  <div class="callout" data-type="tip"><p>Freeze numbering from v0.2 on. New sections get the next number; the time plan sets the order.</p></div>
+</section>
+<section data-number="2.2">
+  <h3>The approval gate</h3>
+  <ul><li>DECISIONS.md logs dated decisions as Proposed or Decided.</li><li>The gate line: <code>Decided · Outline v1.0 approved; Phase 2 begins.</code></li></ul>
+  <div class="callout" data-type="watchout"><p>Without the gate line, a casual "can I see a slide?" starts Phase 2 early and the deck drifts from the outline.</p></div>
+</section>
+<section data-number="2.3" data-type="quick-check">
+  <h3>Where does a speaker note end up?</h3>
+  <p class="question">An outline line starts with <code>Speaker notes:</code>. Where does it appear in the deck?</p><ol class="options"><li>On the slide, in small text</li><li>In the presenter view only</li><li>In the agenda</li></ol><div class="answer">In the presenter view only. It is never visible on the slide.</div>
+  <aside class="notes">Pause for answers before revealing.</aside>
+</section>
+<section data-number="2.4" data-type="try-it-yourself">
+  <h3>Tag one section</h3>
+  <p class="meta">Time: 5 minutes</p><ol class="steps"><li>Pick a section of a talk you are working on.</li><li>Rewrite it as <code>## N. Title</code> with three main points.</li><li>Add one callout where it fits: a tip, a hazard or something to remember.</li></ol><div class="outcome">a section that already reads like a horizontal slide, with one tag the deck will render.</div>
+</section>
+<section data-number="2.5" data-type="recap">
+  <h3>Phase 1 in three points</h3>
+  <ul class="checks"><li>Numbered sections become slides.</li><li>State files, not chat history, carry progress.</li><li>Approval is a recorded decision.</li></ul>
+</section>
+</section>
+<!-- TOPIC 3: Tags -->
+<section id="s3">
+<section class="topic" data-number="3">
+  <h2>Tags</h2>
+  <ul><li>A tag says what a piece of content is; the style decides how it looks.</li><li>Callouts use GitHub's alert syntax, so outlines stay readable.</li><li>One registry, TAGS.md, defines every tag.</li></ul>
+  <footer><a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts">GitHub: alerts</a></footer>
+</section>
+<section data-number="3.1">
+  <h3>Five forms</h3>
+  <div class="layout layout--list" data-layout="list" data-variant="boxes" data-count="5" data-numbered>
+  <ul class="layout__items"><li class="layout__item"><span class="layout__label">Heading tag</span><span class="layout__detail">whole-slide treatments</span></li><li class="layout__item"><span class="layout__label">Inline marker</span><span class="layout__detail">facts about one statement</span></li><li class="layout__item"><span class="layout__label">Callout</span><span class="layout__detail">a boxed aside</span></li><li class="layout__item"><span class="layout__label">Key line</span><span class="layout__detail">directives and fields</span></li><li class="layout__item"><span class="layout__label">Fenced block</span><span class="layout__detail">diagrams and charts</span></li></ul>
+</div>
+</section>
+<section data-number="3.2">
+  <h3>Four kinds of tag</h3>
+  <div class="layout layout--matrix" data-layout="matrix" data-variant="axes" data-count="4" data-x-axis="Hidden → shown" data-y-axis="Inline → slide">
+  <ul class="layout__items"><li class="layout__item"><span class="layout__label">Working aids</span><span class="layout__detail">stripped from the deck</span></li><li class="layout__item"><span class="layout__label">Content markers</span><span class="layout__detail">footers, chips, notes</span></li><li class="layout__item"><span class="layout__label">Slide types</span><span class="layout__detail">whole designed slides</span></li><li class="layout__item is-key"><span class="layout__label">Callouts</span><span class="layout__detail">boxed asides</span></li></ul>
+</div>
+</section>
+<section data-number="3.3">
+  <h3>Six callouts</h3>
+  <div class="layout layout--radial" data-layout="radial" data-count="6">
+  <ol class="layout__items"><li class="layout__item is-key"><span class="layout__label">Callouts</span><ul><li class="layout__item"><span class="layout__label">Note</span></li><li class="layout__item"><span class="layout__label">Tip</span></li><li class="layout__item"><span class="layout__label">Remember</span></li><li class="layout__item"><span class="layout__label">Watch out</span></li><li class="layout__item"><span class="layout__label">Under the hood</span></li><li class="layout__item"><span class="layout__label">Field note</span></li></ul></li></ol>
+</div>
+  <div class="callout" data-type="underthehood"><p>GitHub shows five alert types itself; the others appear there as plain quotes. The deck gives every type its look.</p></div>
+</section>
+</section>
+<!-- TOPIC 4: Layouts -->
+<section id="s4">
+<section class="topic" data-number="4">
+  <h2>Layouts</h2>
+  <ul><li>Authors write bullets; one <code>Layout:</code> line picks the shape.</li><li>Eleven layouts, each with limits and a fallback.</li><li>Nothing is truncated or reworded to fit.</li></ul>
+  <footer><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/LAYOUTS.md">outline-to-deck: LAYOUTS.md</a></footer>
+</section>
+<section data-number="4.1" data-type="key-figure">
+  <h3>Layouts in the catalog</h3>
+  <div class="key-figure"><p class="figure">11</p><p class="figure-label">SmartArt-style layouts, from lists to Venn</p><p class="context">Each one renders in every style.</p></div>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/LAYOUTS.md">outline-to-deck: LAYOUTS.md</a></footer>
+</section>
+<section data-number="4.2">
+  <h3>How v2 came together</h3>
+  <div class="layout layout--timeline" data-layout="timeline" data-variant="horizontal" data-count="4">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Nov 9</span><span class="layout__detail">first workshop</span></li><li class="layout__item"><span class="layout__label">Nov 15</span><span class="layout__detail">guided workflow</span></li><li class="layout__item"><span class="layout__label">Nov 25</span><span class="layout__detail">v2 plan</span></li><li class="layout__item is-key"><span class="layout__label">Nov 27</span><span class="layout__detail">v2 build</span></li></ol>
+</div>
+</section>
+<section data-number="4.3">
+  <h3>Revise until ready</h3>
+  <div class="layout layout--cycle" data-layout="cycle" data-count="4">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Draft</span></li><li class="layout__item"><span class="layout__label">Lint</span></li><li class="layout__item is-key"><span class="layout__label">Review</span></li><li class="layout__item"><span class="layout__label">Revise</span></li></ol>
+</div>
+</section>
+<section data-number="4.4">
+  <h3>What a deck rests on</h3>
+  <div class="layout layout--pyramid" data-layout="pyramid" data-count="4">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Deck</span><span class="layout__detail">what people see</span></li><li class="layout__item"><span class="layout__label">Style</span><span class="layout__detail">how it looks</span></li><li class="layout__item"><span class="layout__label">Tags</span><span class="layout__detail">what each part is</span></li><li class="layout__item is-key"><span class="layout__label">Outline</span><span class="layout__detail">the content</span></li></ol>
+</div>
+</section>
+<section data-number="4.5">
+  <h3>From ideas to slides</h3>
+  <div class="layout layout--funnel" data-layout="funnel" data-count="4">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Ideas</span><span class="layout__detail">everything you could say</span></li><li class="layout__item"><span class="layout__label">Outline</span><span class="layout__detail">what the talk covers</span></li><li class="layout__item"><span class="layout__label">Time plan</span><span class="layout__detail">what fits live</span></li><li class="layout__item is-key"><span class="layout__label">Deck</span><span class="layout__detail">what you show</span></li></ol>
+</div>
+</section>
+<section data-number="4.6">
+  <h3>Where the deck comes from</h3>
+  <div class="layout layout--venn" data-layout="venn" data-count="2" data-overlap="The deck">
+  <ul class="layout__items"><li class="layout__item"><span class="layout__label">Content</span><span class="layout__detail">the outline</span></li><li class="layout__item"><span class="layout__label">Look</span><span class="layout__detail">the style</span></li></ul>
+</div>
+</section>
+<section data-number="4.7">
+  <h3>Parts of a deck</h3>
+  <div class="layout layout--hierarchy" data-layout="hierarchy" data-variant="top-down" data-count="7">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Deck</span><ul><li class="layout__item"><span class="layout__label">Title and agenda</span></li><li class="layout__item"><span class="layout__label">Topics</span><ul><li class="layout__item"><span class="layout__label">Horizontal slides</span></li><li class="layout__item"><span class="layout__label">Vertical slides</span></li></ul></li><li class="layout__item is-key"><span class="layout__label">Appendix</span><ul><li class="layout__item"><span class="layout__label">Backup slides</span></li></ul></li></ul></li></ol>
+</div>
+</section>
+</section>
+<!-- TOPIC 5: Styles -->
+<section id="s5">
+<section class="topic" data-number="5">
+  <h2>Styles</h2>
+  <div class="layout layout--columns" data-layout="columns" data-variant="plain" data-count="3">
+  <ul class="layout__items"><li class="layout__item"><span class="layout__label">Base</span><ul><li>Plain and quiet</li><li>Any talk</li></ul></li><li class="layout__item"><span class="layout__label">Field Guide</span><ul><li>A trail guide</li><li>Teaching sessions</li></ul></li><li class="layout__item"><span class="layout__label">Toons</span><ul><li>Hand-inked cartoon</li><li>Internal events</li></ul></li></ul>
+</div>
+</section>
+<section data-number="5.1">
+  <h3>Readable labels</h3>
+  <figure class="chart" data-type="column" data-title="Callout label contrast in Field Guide, v1 and v2" data-unit="ratio"><table><thead><tr><th>Callout</th><th>v1</th><th>v2</th></tr></thead><tbody><tr><td>Tip</td><td>2.0</td><td>6.3</td></tr><tr><td>Watch out</td><td>3.8</td><td>5.2</td></tr><tr><td>Field note</td><td>4.3</td><td>5.7</td></tr><tr><td>Remember</td><td>4.6</td><td>6.3</td></tr></tbody></table></figure>
+  <ul><li>Body text needs at least 4.5:1 contrast. <span class="unverified">Unverified</span></li></ul>
+  <div class="callout" data-type="fieldnote"><p>Three of Field Guide's v1 callout labels were below 4.5:1. v2's style schema gives every label its own darker text color.</p></div>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://www.w3.org/TR/WCAG22/#contrast-minimum">WCAG 2.2: contrast minimum</a><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/styles/STYLE-FIELD-GUIDE.md">outline-to-deck: STYLE-FIELD-GUIDE.md</a></footer>
+  <aside class="notes">Unverified: WCAG page not re-checked for this showcase.</aside>
+</section>
+<section data-number="5.2">
+  <h3>Before and after a style switch</h3>
+  <div class="layout layout--columns" data-layout="columns" data-variant="before-after" data-count="2">
+  <ul class="layout__items"><li class="layout__item"><span class="layout__label">v1</span><ul><li>Map unknown tags</li><li>Fallback tables</li></ul></li><li class="layout__item"><span class="layout__label">v2</span><ul><li>Every tag renders</li><li>Just rebuild</li></ul></li></ul>
+</div>
+</section>
+</section>
+<!-- TOPIC 6: Phase 2: the deck -->
+<section id="s6">
+<section class="topic" data-number="6">
+  <h2>Phase 2: the deck</h2>
+  <ul><li>One self-contained HTML file; Reveal.js and Mermaid from pinned CDN versions.</li><li>The tools build and check it; Claude writes the slides.</li><li>Every slide is verified before the deck is called done.</li></ul>
+  <footer><a href="https://revealjs.com/vertical-slides/">Reveal.js: vertical slides</a></footer>
+</section>
+<section data-number="6.1">
+  <h3>Build steps</h3>
+  <div class="layout layout--process" data-layout="process" data-variant="steps" data-count="5">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Lint</span><span class="layout__detail">check the outline</span></li><li class="layout__item"><span class="layout__label">Write</span><span class="layout__detail">slide fragments</span></li><li class="layout__item is-key"><span class="layout__label">Assemble</span><span class="layout__detail">one file</span></li><li class="layout__item"><span class="layout__label">Check</span><span class="layout__detail">every slide</span></li><li class="layout__item"><span class="layout__label">Notes</span><span class="layout__detail">record the build</span></li></ol>
+</div>
+</section>
+<section data-number="6.2">
+  <h3>Tests as the tools grew</h3>
+  <figure class="chart" data-type="line" data-title="Automated tests in the repository, by milestone"><table><thead><tr><th>Milestone</th><th>Tests</th></tr></thead><tbody><tr><td>M2 tools</td><td>44</td></tr><tr><td>M3 layouts</td><td>46</td></tr><tr><td>M4 charts</td><td>47</td></tr><tr><td>M5 workflow</td><td>50</td></tr></tbody></table></figure>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/commits/main">outline-to-deck: commit history</a></footer>
+</section>
+<section data-number="6.3">
+  <h3>Check every slide</h3>
+  <figure class="chart" data-type="bar" data-title="The twelve checks in the build spec, by kind"><table><thead><tr><th>Kind</th><th>Checks</th></tr></thead><tbody><tr><td>Fit and footer</td><td>3</td></tr><tr><td>Text and tags</td><td>2</td></tr><tr><td>Outline match</td><td>2</td></tr><tr><td>Errors and clicks</td><td>2</td></tr><tr><td>Diagrams</td><td>1</td></tr><tr><td>Layouts</td><td>1</td></tr><tr><td>Screenshots</td><td>1</td></tr></tbody></table></figure>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/DECK-BUILD-SPEC.md">outline-to-deck: DECK-BUILD-SPEC.md</a></footer>
+</section>
+</section>
+<!-- APPENDIX -->
+<section id="appendix">
+<section class="appendix-divider"><h2>Appendix</h2></section>
+<section data-number="1.4" data-type="backup" data-backup-for="1">
+  <h3>Where the effort goes</h3>
+  <ul><li>Outline revisions: wording, order, facts and sources.</li><li>Deck rebuilds: every slide regenerated, re-checked and re-reviewed.</li></ul>
+</section>
+<section data-number="6.4" data-type="backup" data-backup-for="6">
+  <h3>Running the checker</h3>
+  <pre class="code"><code>python3 tools/check-deck.py deck.html --outline OUTLINE.md --shots shots --json</code></pre>
+</section>
+</section>
+<!-- SOURCES -->
+<section id="sources" class="sources" data-auto data-visibility="uncounted"><h2>Sources</h2></section>
+<!-- O2D:SLIDES-END -->
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/reveal.js" integrity="sha384-UilXW7W77EPIY5TmQGBrjhBPcfX40NqGwuIC8DGs6OeGTCxKy36B+DiOXtfqgk9S" crossorigin="anonymous"></script>
+<script>window.Reveal||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.min.js" integrity=\"sha384-eBkZZAfSAEMl3+j6oURvOvx7mNQYvhiLAsiCixfzvVy9YBydPR7afe1EPV8L20Ri\" crossorigin="anonymous"><\/script>')</script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/plugin/notes.js" integrity="sha384-XUVoTb/UbE06yoCUaqswCPKSUvPq3q4heijGsemnUSS/JEgW1lNnK0rKlNwjuz7O" crossorigin="anonymous"></script>
+<script>window.RevealNotes||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/plugin/notes.min.js" integrity=\"sha384-vTA53k/ODzIBodKfasOU0VIdv/Go/TepC3s52PQJTg33fi7B4bRPWnab3mqyO1/x\" crossorigin="anonymous"><\/script>')</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/12.3.0/mermaid.min.js" integrity="sha384-HHW54r639fK42Ip0coGF3mz8oSiGn0eEoWNTLs75X7H63pLSDBa0Tqs0RwGmLlXE" crossorigin="anonymous"></script>
+<script>window.mermaid||document.write('<script src="https://cdn.jsdelivr.net/npm/mermaid@12.3.0/dist/mermaid.min.js" integrity=\"sha384-HHW54r639fK42Ip0coGF3mz8oSiGn0eEoWNTLs75X7H63pLSDBa0Tqs0RwGmLlXE\" crossorigin="anonymous"><\/script>')</script>
+<script>
+/* ---- runtime/layouts.js + charts.js + deck.js ---- */
+/* outline-to-deck layouts.js: geometry and compaction for the layouts in knowledge/LAYOUTS.md.
+ * Registers window.DeckLayouts[name] = { render(el), compact(el, step) -> bool }.
+ * deck.js calls render when a slide is first shown, and compact (steps 1..3) before autofit.
+ * Must load before deck.js. */
+(function () {
+  'use strict';
+  var L = window.DeckLayouts = window.DeckLayouts || {};
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  function items(lay) { return Array.prototype.slice.call(lay.querySelectorAll(':scope > .layout__items > .layout__item')); }
+  function add(lay, cls) { if (lay.classList.contains(cls)) return false; lay.classList.add(cls); return true; }
+  function variant(lay, v) { return (lay.dataset.variant || '') === v; }
+  function frame(lay) {
+    var old = lay.querySelector(':scope > .layout__frame');
+    if (old) old.remove();
+    var w = lay.offsetWidth, h = lay.offsetHeight;
+    var svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'layout__frame chrome');
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+    svg.setAttribute('aria-hidden', 'true');
+    lay.insertBefore(svg, lay.firstChild);
+    return { svg: svg, w: w, h: h };
+  }
+  function node(svg, tag, attrs) {
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    svg.appendChild(e);
+    return e;
+  }
+  function place(el, xPct, yPct) { el.style.left = xPct + '%'; el.style.top = yPct + '%'; }
+  function ring(n, i, rx, ry) {          // position i of n around an ellipse, starting at the top
+    var a = -Math.PI / 2 + 2 * Math.PI * i / n;
+    return { x: 50 + rx * Math.cos(a), y: 50 + ry * Math.sin(a), a: a };
+  }
+  function simple(steps) {               // compaction: is-compact, then is-wrapped when allowed
+    return function (lay, step) {
+      if (step === 1) return add(lay, 'is-compact');
+      if (step === 2 && steps(lay)) return add(lay, 'is-wrapped');
+      return false;
+    };
+  }
+
+  L.list = {
+    render: function (lay) { if (lay.hasAttribute('data-numbered')) lay.classList.add('is-numbered'); },
+    compact: simple(function (lay) { return items(lay).length <= 4; })
+  };
+  L.process = { compact: simple(function (lay) { return items(lay).length >= 4; }) };
+  L.timeline = { compact: simple(function (lay) { return !variant(lay, 'vertical'); }) };
+  L.columns = { compact: simple(function (lay) { return items(lay).length >= 3; }) };
+  L.hierarchy = { compact: simple(function (lay) { return !variant(lay, 'left-right'); }) };
+  L.matrix = { compact: simple(function () { return false; }) };
+
+  function trapezoids(lay, widening) {
+    var its = items(lay), n = its.length;
+    var W = its.map(function (_, i) { var t = n > 1 ? i / (n - 1) : 1; return widening ? 40 + 60 * t : 100 - 60 * t; });
+    its.forEach(function (it, i) {
+      var lab = it.querySelector(':scope > .layout__label');
+      if (!lab) return;
+      var other = widening ? (i > 0 ? W[i - 1] : W[0] * 0.35) : (i < n - 1 ? W[i + 1] : W[i] * 0.6);
+      var inset = Math.max(0, (W[i] - other) / (2 * W[i]) * 100).toFixed(1) + '%';
+      lab.style.setProperty('--w', W[i] + '%');
+      lab.style.setProperty('--clip', widening
+        ? 'polygon(' + inset + ' 0, calc(100% - ' + inset + ') 0, 100% 100%, 0 100%)'
+        : 'polygon(0 0, 100% 0, calc(100% - ' + inset + ') 100%, ' + inset + ' 100%)');
+    });
+  }
+  L.pyramid = { render: function (lay) { trapezoids(lay, true); }, compact: simple(function () { return false; }) };
+  L.funnel = { render: function (lay) { trapezoids(lay, false); }, compact: simple(function () { return false; }) };
+
+  L.radial = {
+    render: function (lay) {
+      var root = items(lay)[0];
+      if (!root) return;
+      var spokes = Array.prototype.slice.call(root.querySelectorAll(':scope > ul > li, :scope > ol > li'));
+      var f = frame(lay), n = spokes.length;
+      spokes.forEach(function (s, i) {
+        var p = ring(n, i, 38, 40);
+        place(s, p.x, p.y);
+        node(f.svg, 'line', { x1: f.w / 2, y1: f.h / 2, x2: f.w * p.x / 100, y2: f.h * p.y / 100 });
+      });
+      var c = root.querySelector(':scope > .layout__label');
+      if (c) place(c, 50, 50);
+    },
+    compact: function (lay, step) { if (step === 1 && add(lay, 'is-compact')) { L.radial.render(lay); return true; } return false; }
+  };
+
+  L.cycle = {
+    render: function (lay) {
+      var its = items(lay), n = its.length, f = frame(lay);
+      var rx = 36, ry = 38;
+      its.forEach(function (it, i) { var p = ring(n, i, rx, ry); place(it, p.x, p.y); });
+      var cx = f.w / 2, cy = f.h / 2, Rx = f.w * rx / 100, Ry = f.h * ry / 100;
+      node(f.svg, 'ellipse', { cx: cx, cy: cy, rx: Rx, ry: Ry, style: 'stroke:var(--connector);stroke-width:2;fill:none' });
+      for (var i = 0; i < n; i++) {            // an arrowhead halfway to the next item, pointing along the ring
+        var a = -Math.PI / 2 + 2 * Math.PI * (i + 0.5) / n;
+        var x = cx + Rx * Math.cos(a), y = cy + Ry * Math.sin(a);
+        var tx = -Rx * Math.sin(a), ty = Ry * Math.cos(a), len = Math.sqrt(tx * tx + ty * ty);
+        var ux = tx / len, uy = ty / len, s = 9;
+        var pts = [[x + ux * s, y + uy * s], [x - ux * s - uy * s * 0.8, y - uy * s + ux * s * 0.8], [x - ux * s + uy * s * 0.8, y - uy * s - ux * s * 0.8]];
+        node(f.svg, 'polygon', { 'class': 'arrow', points: pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') });
+      }
+    },
+    compact: function (lay, step) { if (step === 1 && add(lay, 'is-compact')) { L.cycle.render(lay); return true; } return false; }
+  };
+
+  // Circle centers, label points and the overlap point, in units of the radius from the layout's center.
+  var VENN = {
+    2: { r: 0.46, c: [[-0.62, 0], [0.62, 0]], labels: [[-1.0, 0], [1.0, 0]], overlap: [0, 0] },
+    3: { r: 0.35, c: [[-0.58, -0.36], [0.58, -0.36], [0, 0.62]], labels: [[-1.12, -0.7], [1.12, -0.7], [0, 1.22]], overlap: [0, 0.02] }
+  };
+  var FILLS = ['--accent-tint', '--callout-remember-tint', '--callout-fieldnote-tint'];
+  L.venn = {
+    render: function (lay) {
+      var its = items(lay), spec = VENN[its.length] || VENN[3];
+      var f = frame(lay), r = Math.min(f.h * spec.r, f.w * 0.2), cx = f.w / 2, cy = f.h / 2;
+      function pct(p) { return [(cx + p[0] * r) / f.w * 100, (cy + p[1] * r) / f.h * 100]; }
+      spec.c.slice(0, its.length).forEach(function (c, i) {
+        node(f.svg, 'circle', { 'class': 'venn-set', cx: cx + c[0] * r, cy: cy + c[1] * r, r: r,
+          style: 'fill:var(' + FILLS[i] + ');fill-opacity:.85;mix-blend-mode:multiply' });
+      });
+      its.forEach(function (it, i) { var p = spec.labels[i]; if (p) { p = pct(p); place(it, p[0], p[1]); } });
+      var ov = lay.querySelector(':scope > .venn-overlap');
+      if (!ov && lay.dataset.overlap) {
+        ov = document.createElement('div');
+        ov.className = 'venn-overlap';
+        ov.textContent = lay.dataset.overlap;
+        lay.appendChild(ov);
+      }
+      if (ov) { var o = pct(spec.overlap); place(ov, o[0], o[1]); }
+    },
+    compact: function (lay, step) { if (step === 1 && add(lay, 'is-compact')) { L.venn.render(lay); return true; } return false; }
+  };
+})();
+
+/* outline-to-deck charts.js: draws <figure class="chart" data-type="bar|column|line"> from its <table>.
+ * The first column holds categories; each further column is a series. The table stays in the DOM,
+ * visually hidden, for screen readers. Colors come from --series-1..5; text uses the t-* classes.
+ * Registers window.DeckCharts[type]. Must load before deck.js. */
+(function () {
+  'use strict';
+  var C = window.DeckCharts = window.DeckCharts || {};
+  var NS = 'http://www.w3.org/2000/svg';
+
+  function num(s) { return parseFloat(String(s).replace(/[,%\s]/g, '')); }
+  function read(fig) {
+    var rows = Array.prototype.slice.call(fig.querySelectorAll('table tr'));
+    var head = Array.prototype.slice.call(rows[0].children).map(function (c) { return c.textContent.trim(); });
+    var data = rows.slice(1).map(function (r) {
+      var cells = Array.prototype.slice.call(r.children).map(function (c) { return c.textContent.trim(); });
+      return { cat: cells[0], vals: cells.slice(1).map(num), raw: cells.slice(1) };
+    });
+    return { series: head.slice(1), data: data };
+  }
+  function el(svg, tag, a, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in a) e.setAttribute(k, a[k]);
+    if (text != null) e.textContent = text;
+    svg.appendChild(e);
+    return e;
+  }
+  function nice(max) {
+    if (max <= 0) return 1;
+    var p = Math.pow(10, Math.floor(Math.log10(max))), m = max / p;
+    return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 2.5 ? 2.5 : m <= 5 ? 5 : 10) * p;
+  }
+  function color(i) { return 'var(--series-' + ((i % 5) + 1) + ')'; }
+  function setup(fig, height) {
+    var old = fig.querySelector(':scope > svg.chart__svg');
+    if (old) old.remove();
+    var t = fig.querySelector('table');
+    if (t) t.classList.add('chart__data');
+    if (fig.dataset.title && !fig.querySelector(':scope > .chart__title')) {
+      var cap = document.createElement('p');
+      cap.className = 'chart__title';
+      var unit = fig.dataset.unit, title = fig.dataset.title;
+      cap.textContent = title + (unit && title.toLowerCase().indexOf(unit.toLowerCase()) < 0 ? ' (' + unit + ')' : '');
+      fig.insertBefore(cap, fig.firstChild);
+    }
+    var w = fig.clientWidth || 1000;
+    var fs = parseFloat(getComputedStyle(fig).fontSize) || 24;
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'chart__svg');
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + height(fs));
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', fig.dataset.title || 'Chart');
+    fig.appendChild(svg);
+    return { svg: svg, w: w, h: height(fs), fs: fs };
+  }
+  function legend(c, series, y) {
+    if (series.length < 2) return;
+    var x = 0;
+    series.forEach(function (s, i) {
+      el(c.svg, 'rect', { x: x, y: y - c.fs * 0.7, width: c.fs * 0.7, height: c.fs * 0.7, rx: 3, style: 'fill:' + color(i) });
+      var t = el(c.svg, 'text', { x: x + c.fs, y: y, 'class': 't-ink', 'font-size': c.fs * 0.9 }, s);
+      x += c.fs * 1.6 + s.length * c.fs * 0.55;
+      void t;
+    });
+  }
+
+  C.bar = function (fig) {                       // horizontal bars, categories down the left
+    var d = read(fig), n = d.data.length, k = d.series.length;
+    var c = setup(fig, function (fs) { return n * (k * fs * 1.1 + fs * 0.6) + (k > 1 ? fs * 1.8 : 0) + 4; });
+    var labelW = Math.min(c.w * 0.32, c.fs * 0.55 * Math.max.apply(null, d.data.map(function (r) { return r.cat.length; })) + c.fs);
+    var max = nice(Math.max.apply(null, d.data.map(function (r) { return Math.max.apply(null, r.vals); })));
+    var plotW = c.w - labelW - c.fs * 3.5, y = (k > 1 ? c.fs * 1.8 : 0), barH = c.fs * 1.1;
+    legend(c, d.series, c.fs);
+    d.data.forEach(function (r) {
+      el(c.svg, 'text', { x: labelW - c.fs * 0.4, y: y + (k * barH) / 2 + c.fs * 0.32, 'text-anchor': 'end', 'class': 't-ink', 'font-size': c.fs }, r.cat);
+      r.vals.forEach(function (v, i) {
+        var bw = Math.max(2, plotW * v / max);
+        el(c.svg, 'rect', { x: labelW, y: y + i * barH, width: bw, height: barH * 0.82, rx: 3, style: 'fill:' + color(i) });
+        el(c.svg, 'text', { x: labelW + bw + c.fs * 0.3, y: y + i * barH + barH * 0.62, 'class': 't-ink', 'font-size': c.fs * 0.9 }, r.raw[i]);
+      });
+      y += k * barH + c.fs * 0.6;
+    });
+    el(c.svg, 'line', { x1: labelW, x2: labelW, y1: k > 1 ? c.fs * 1.6 : 0, y2: y - c.fs * 0.4, style: 'stroke:var(--line);stroke-width:2' });
+  };
+
+  C.column = function (fig) {                    // vertical bars, categories along the bottom
+    var d = read(fig), n = d.data.length, k = d.series.length;
+    var c = setup(fig, function (fs) { return fs * 14; });
+    var top = (k > 1 ? c.fs * 2 : c.fs * 0.4) + c.fs, bottom = c.h - c.fs * 1.8, plotH = bottom - top;
+    var max = nice(Math.max.apply(null, d.data.map(function (r) { return Math.max.apply(null, r.vals); })));
+    var slot = c.w / n, barW = Math.min(slot * 0.8 / k, c.fs * 3);
+    legend(c, d.series, c.fs);
+    el(c.svg, 'line', { x1: 0, x2: c.w, y1: bottom, y2: bottom, style: 'stroke:var(--line);stroke-width:2' });
+    d.data.forEach(function (r, j) {
+      var x0 = slot * j + (slot - barW * k) / 2;
+      r.vals.forEach(function (v, i) {
+        var bh = Math.max(2, plotH * v / max), x = x0 + i * barW;
+        el(c.svg, 'rect', { x: x, y: bottom - bh, width: barW * 0.9, height: bh, rx: 3, style: 'fill:' + color(i) });
+        el(c.svg, 'text', { x: x + barW * 0.45, y: bottom - bh - c.fs * 0.3, 'text-anchor': 'middle', 'class': 't-ink', 'font-size': c.fs * 0.9 }, r.raw[i]);
+      });
+      el(c.svg, 'text', { x: slot * j + slot / 2, y: bottom + c.fs * 1.2, 'text-anchor': 'middle', 'class': 't-ink', 'font-size': c.fs }, r.cat);
+    });
+  };
+
+  C.line = function (fig) {
+    var d = read(fig), n = d.data.length;
+    var c = setup(fig, function (fs) { return fs * 14; });
+    var top = (d.series.length > 1 ? c.fs * 2 : c.fs * 0.4) + c.fs, bottom = c.h - c.fs * 1.8, plotH = bottom - top;
+    var all = []; d.data.forEach(function (r) { all = all.concat(r.vals); });
+    var max = nice(Math.max.apply(null, all)), pad = c.fs * 1.5, step = (c.w - 2 * pad) / Math.max(1, n - 1);
+    legend(c, d.series, c.fs);
+    el(c.svg, 'line', { x1: 0, x2: c.w, y1: bottom, y2: bottom, style: 'stroke:var(--line);stroke-width:2' });
+    d.series.forEach(function (_, i) {
+      var pts = d.data.map(function (r, j) { return [pad + j * step, bottom - plotH * r.vals[i] / max]; });
+      el(c.svg, 'polyline', { points: pts.map(function (p) { return p.join(','); }).join(' '), style: 'fill:none;stroke:' + color(i) + ';stroke-width:5;stroke-linejoin:round' });
+      pts.forEach(function (p, j) {
+        el(c.svg, 'circle', { cx: p[0], cy: p[1], r: c.fs * 0.25, style: 'fill:' + color(i) });
+        if (d.series.length === 1 || j === n - 1) {
+          el(c.svg, 'text', { x: p[0], y: p[1] - c.fs * 0.5, 'text-anchor': 'middle', 'class': 't-ink', 'font-size': c.fs * 0.9 }, d.data[j].raw[i]);
+        }
+      });
+    });
+    d.data.forEach(function (r, j) {
+      el(c.svg, 'text', { x: pad + j * step, y: bottom + c.fs * 1.2, 'text-anchor': 'middle', 'class': 't-ink', 'font-size': c.fs }, r.cat);
+    });
+  };
+})();
+
+/* outline-to-deck deck.js: the shared deck runtime, inlined into every deck by assemble-deck.py.
+ *
+ * Claude writes semantic markup (DECK-BUILD-SPEC.md). This script adds what is the same in every deck:
+ * number chips, slide-type labels and icons, callout tabs, "more below" cues, page numbers,
+ * backup links, the sources slide, Mermaid rendering with the style's colors, layout geometry,
+ * charts, and autofit. Labels and colors come from CSS custom properties, so a style changes
+ * them in its CSS file alone.
+ *
+ * It sets data attributes that tools/check-deck.py reads: data-fit (autofit scale), data-overflow,
+ * data-compact (layout compaction steps). window.deckReport() returns them for every slide.
+ */
+(function () {
+  'use strict';
+
+  var ICONS = {
+    note: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/>',
+    tip: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.4 1.1 2.2h5c0-.8.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>',
+    remember: '<path d="M6 3h12v18l-6-4-6 4z"/>',
+    watchout: '<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/>',
+    underthehood: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+    fieldnote: '<rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h3M3 7h3M3 12h3M3 17h3"/>',
+    compass: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+    question: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17v.5"/>',
+    check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>',
+    down: '<path d="M6 9l6 6 6-6"/>'
+  };
+  var ALIASES = { important: 'remember', warning: 'watchout', caution: 'watchout' };
+  var TYPE_ICONS = { 'quick-check': 'question', 'myth-vs-fact': 'x', 'recap': 'check' };
+  var FLOOR = 0.62;
+
+  function $(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function label(name, fallback) {
+    var v = cssVar('--label-' + name).replace(/^["']|["']$/g, '');
+    return v || fallback || name;
+  }
+  function icon(name) {
+    return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+  }
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html != null) e.innerHTML = html;
+    return e;
+  }
+  function heading(slide) { return slide.querySelector(':scope > h2, :scope > h3, :scope > h4'); }
+  function textOf(h) {
+    if (!h) return '';
+    var c = h.cloneNode(true);
+    $('.marker, .num', c).forEach(function (n) { n.remove(); });
+    return c.textContent.trim();
+  }
+  function slideId(s) {
+    if (!s.id) s.id = 'n' + (s.dataset.number || Math.random().toString(36).slice(2, 7)).replace(/\./g, '-');
+    return s.id;
+  }
+
+  /* ------------------------------------------------------------ enhance (before Reveal starts) */
+  function enhanceNumbers() {
+    $('.reveal .slides section[data-number]').forEach(function (s) {
+      var h = heading(s);
+      if (!h || h.querySelector('.marker, .num')) return;
+      var chip = el('span', s.classList.contains('topic') ? 'marker' : 'num', s.dataset.number);
+      h.insertBefore(chip, h.firstChild);
+    });
+    $('.reveal ol.agenda-list > li[data-number]').forEach(function (li) {
+      var a = li.querySelector('a') || li;
+      if (!a.querySelector('.marker')) a.insertBefore(el('span', 'marker', li.dataset.number), a.firstChild);
+      if (li.classList.contains('self-guided') && !li.querySelector('.sg')) a.appendChild(el('span', 'sg', label('self-guided')));
+    });
+  }
+
+  function enhanceCallouts() {
+    $('.reveal .callout[data-type]').forEach(function (c) {
+      if (c.querySelector('.callout__tab')) return;
+      var raw = c.dataset.type.toLowerCase();
+      var type = ALIASES[raw] || raw;
+      c.classList.add('callout--' + type);
+      var body = el('div', 'callout__body');
+      var lab = el('b', 'callout__label');
+      lab.textContent = c.dataset.title || label(raw);
+      body.appendChild(lab);
+      while (c.firstChild) body.appendChild(c.firstChild);
+      c.appendChild(el('div', 'callout__tab', icon(type)));
+      c.appendChild(body);
+    });
+  }
+
+  function enhanceSlideTypes() {
+    $('.reveal .slides section[data-type]').forEach(function (s) {
+      var t = s.dataset.type, h = heading(s);
+      if (TYPE_ICONS[t] && h && !s.querySelector(':scope > .st-label')) {
+        var lab = el('p', 'st-label', icon(TYPE_ICONS[t]));
+        lab.appendChild(document.createTextNode(label(t)));
+        s.insertBefore(lab, h);
+      }
+      if (t === 'quick-check') {
+        $('.answer', s).forEach(function (a) {
+          if (!a.querySelector('.answer__label')) a.insertBefore(el('span', 'answer__label', label('answer')), a.firstChild);
+          a.classList.add('fragment');
+        });
+      }
+      if (t === 'myth-vs-fact') {
+        $('.myth', s).forEach(function (m) { if (!m.querySelector('.ic')) m.insertAdjacentHTML('afterbegin', icon('x')); });
+        $('.fact', s).forEach(function (f) {
+          if (!f.querySelector('.ic')) f.insertAdjacentHTML('afterbegin', icon('check'));
+          f.classList.add('fragment');
+        });
+      }
+      if (t === 'recap') {
+        $('ul.checks > li', s).forEach(function (li) { if (!li.querySelector('.ic')) li.insertAdjacentHTML('afterbegin', icon('check')); });
+        if (!s.querySelector('.next')) {
+          var next = nextSectionTitle(s);
+          if (next) s.appendChild(el('p', 'next chrome', label('recap-next') + ' ' + next));
+        }
+      }
+      if (t === 'try-it-yourself') {
+        if (!s.querySelector(':scope > .tiy')) {
+          var b = el('div', 'tiy', icon('compass'));
+          b.appendChild(document.createTextNode(label('try-it-yourself')));
+          s.insertBefore(b, s.firstChild);
+        }
+        $('.outcome', s).forEach(function (o) {
+          if (!o.querySelector('.outcome__label')) o.insertBefore(el('span', 'outcome__label', label('outcome')), o.firstChild);
+        });
+      }
+    });
+  }
+
+  function nextSectionTitle(slide) {
+    var stack = slide.closest('.slides > section');
+    var items = $('.reveal ol.agenda-list > li');
+    var ids = items.map(function (li) { var a = li.querySelector('a'); return a ? (a.getAttribute('href') || '').replace('#/', '') : ''; });
+    var i = stack ? ids.indexOf(stack.id) : -1;
+    if (i < 0 || i + 1 >= items.length) return '';
+    var a = items[i + 1].querySelector('a');
+    return textOf(a);
+  }
+
+  function enhanceCues() {
+    $('.reveal .slides > section').forEach(function (stack) {
+      if (stack.id === 'appendix') return;
+      var kids = $(':scope > section', stack);
+      if (kids.length > 1 && !kids[0].querySelector(':scope > .more')) {
+        var cue = el('div', 'more chrome', icon('down'));
+        cue.appendChild(document.createTextNode(label('more')));
+        kids[0].appendChild(cue);
+      }
+    });
+  }
+
+  function enhanceBackups() {
+    $('.reveal section[data-backup-for]').forEach(function (b) {
+      b.setAttribute('data-visibility', 'uncounted');
+      var parent = document.querySelector('.reveal .slides section[data-number="' + b.dataset.backupFor + '"]');
+      if (!parent) return;
+      var n = $(':scope > .backup-link', parent).length;
+      var link = el('a', 'backup-link chrome');
+      link.href = '#/' + slideId(b);
+      link.textContent = label('backup') + ' ' + textOf(heading(b));
+      link.style.bottom = (48 + 22 * n) + 'px';
+      parent.appendChild(link);
+      if (!b.querySelector(':scope > .back-link')) {
+        var back = el('a', 'back-link chrome');
+        back.href = '#/' + slideId(parent);
+        back.textContent = label('back');
+        b.appendChild(back);
+      }
+    });
+    $('.reveal #appendix section').forEach(function (s) { s.setAttribute('data-visibility', 'uncounted'); });
+  }
+
+  function enhanceSources() {
+    var target = document.querySelector('.reveal section.sources[data-auto]');
+    if (!target || target.querySelector('.sources-list')) return;
+    var groups = [], seen = {};
+    $('.reveal .slides > section').forEach(function (stack) {
+      if (stack === target || stack.id === 'appendix') return;
+      var title = textOf(stack.querySelector('section.topic > h2, :scope > h2')) || '';
+      var links = [];
+      $('footer a[href]', stack).forEach(function (a) {
+        if (seen[a.href]) return;
+        seen[a.href] = 1;
+        links.push('<li><a href="' + a.href + '">' + a.textContent + '</a></li>');
+      });
+      if (links.length) groups.push('<h4>' + title + '</h4><ul>' + links.join('') + '</ul>');
+    });
+    if (!target.querySelector('h2')) target.appendChild(el('h2', '', 'Sources'));
+    target.appendChild(el('div', 'sources-list', groups.join('')));
+  }
+
+  function enhanceBuild() {
+    var deckDefault = (document.querySelector('.reveal').dataset.build || 'off') === 'on';
+    $('.reveal .layout').forEach(function (lay) {
+      var on = lay.hasAttribute('data-build') ? lay.dataset.build !== 'off' : deckDefault;
+      if (on) $(':scope > .layout__items > .layout__item', lay).forEach(function (it) { it.classList.add('fragment'); });
+    });
+  }
+
+  function pageNumbers() {
+    var counted = $('.reveal .slides section').filter(function (s) {
+      return !s.querySelector(':scope > section') && s.id !== 'title' && s.getAttribute('data-visibility') !== 'uncounted';
+    });
+    counted.forEach(function (s, i) {
+      if (!s.querySelector(':scope > .pgnum')) s.appendChild(el('div', 'pgnum chrome', (i + 1) + ' / ' + counted.length));
+    });
+  }
+
+  /* ------------------------------------------------------------ layouts and charts (extended in M3/M4) */
+  var Layouts = window.DeckLayouts = window.DeckLayouts || {};   // name -> { render(el), compact(el, step) -> bool }
+  var Charts = window.DeckCharts = window.DeckCharts || {};      // type -> render(figure)
+
+  function renderLayouts(root) {
+    $('.layout[data-layout]', root).forEach(function (lay) {
+      var impl = Layouts[lay.dataset.layout];
+      if (impl && impl.render && !lay.dataset.rendered) { impl.render(lay); lay.dataset.rendered = '1'; }
+    });
+    $('figure.chart[data-type]', root).forEach(function (fig) {
+      var impl = Charts[fig.dataset.type];
+      if (impl && !fig.dataset.rendered) { impl(fig); fig.dataset.rendered = '1'; }
+    });
+  }
+
+  /* ------------------------------------------------------------ fit */
+  var CHROME = ':scope > *:not(footer):not(aside):not(.pgnum):not(.more):not(.tiy):not(.chrome)';
+
+  function tooTall(s) {
+    if (s.scrollHeight > s.clientHeight + 2) return true;
+    var ft = s.querySelector(':scope > footer');
+    var limit = ft ? ft.offsetTop - 6 : s.clientHeight - 64;
+    var kids = s.querySelectorAll(CHROME);
+    for (var i = 0; i < kids.length; i++) { if (kids[i].offsetTop + kids[i].offsetHeight > limit) return true; }
+    return false;
+  }
+
+  function clipped(lay) {
+    var t = lay.querySelectorAll('.layout__label, .layout__detail');
+    for (var i = 0; i < t.length; i++) {
+      if (t[i].scrollWidth > t[i].clientWidth + 1 || t[i].scrollHeight > t[i].clientHeight + 1) return true;
+    }
+    return false;
+  }
+
+  function fitSlide(s) {
+    if (!s || s.querySelector(':scope > section')) return;
+    s.style.fontSize = '';
+    s.removeAttribute('data-fit');
+    s.removeAttribute('data-overflow');
+    // 1. let layouts compact themselves before the whole slide shrinks
+    var steps = [];
+    $('.layout[data-layout]', s).forEach(function (lay) {
+      var impl = Layouts[lay.dataset.layout];
+      if (!impl || !impl.compact) return;
+      for (var step = 1; step <= 3 && (tooTall(s) || clipped(lay)); step++) {
+        if (impl.compact(lay, step)) steps.push(lay.dataset.layout + ':' + step); else break;
+      }
+    });
+    if (steps.length) s.dataset.compact = steps.join(' ');
+    // 2. shrink text down to the floor
+    var f = 1;
+    while (tooTall(s) && f > FLOOR + 0.001) { f = Math.max(FLOOR, f - 0.03); s.style.fontSize = f + 'em'; }
+    if (f < 1) s.dataset.fit = f.toFixed(2);
+    if (tooTall(s)) s.dataset.overflow = '1';
+  }
+
+  /* ------------------------------------------------------------ Mermaid */
+  var mermaidReady = false;
+  function setupMermaid() {
+    if (!window.mermaid || mermaidReady) return;
+    mermaidReady = true;
+    var look = cssVar('--mermaid-look').replace(/["']/g, '') || 'classic';
+    window.mermaid.initialize({
+      startOnLoad: false, securityLevel: 'strict', theme: 'base', look: look, layout: 'dagre',
+      flowchart: { curve: 'basis', htmlLabels: true, useMaxWidth: true, nodeSpacing: 34, rankSpacing: 60, padding: 14 },
+      themeVariables: {
+        fontFamily: cssVar('--font-body'), fontSize: '20px',
+        primaryColor: cssVar('--surface'), primaryBorderColor: cssVar('--mermaid-border') || cssVar('--accent'),
+        primaryTextColor: cssVar('--ink'), lineColor: cssVar('--connector'), edgeLabelBackground: cssVar('--surface')
+      }
+    });
+  }
+  function classDefs() {
+    var sw = cssVar('--mermaid-stroke-width');
+    var lines = [
+      'classDef key fill:' + cssVar('--emphasis') + ',stroke:' + (cssVar('--mermaid-border') || cssVar('--emphasis')) + ',color:' + cssVar('--on-emphasis'),
+      'classDef good fill:' + cssVar('--callout-fieldnote-tint') + ',stroke:' + cssVar('--callout-fieldnote') + ',color:' + cssVar('--ink'),
+      'classDef warn fill:' + cssVar('--callout-watchout-tint') + ',stroke:' + cssVar('--callout-watchout') + ',color:' + cssVar('--ink')
+    ];
+    if (sw) lines.push('classDef default stroke-width:' + sw);
+    return '\n' + lines.join('\n') + '\n';
+  }
+  function renderDiagrams(slide) {
+    if (!window.mermaid || !slide) return Promise.resolve();
+    if (slide._diagrams) return slide._diagrams;          // a render is already running or done: share it
+    var nodes = $('pre.mermaid:not([data-processed])', slide);
+    if (!nodes.length) return Promise.resolve();
+    setupMermaid();
+    nodes.forEach(function (n) {
+      if (!n.dataset.styled && /^\s*(flowchart|graph)\b/.test(n.textContent)) { n.textContent += classDefs(); n.dataset.styled = '1'; }
+    });
+    var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    slide._diagrams = fonts.then(function () { return window.mermaid.run({ nodes: nodes }); })
+      .catch(function (err) { console.error('Mermaid:', err); })
+      .then(function () { fitSlide(slide); });
+    return slide._diagrams;
+  }
+
+  /* ------------------------------------------------------------ start */
+  function show(slide) { renderLayouts(slide); fitSlide(slide); return renderDiagrams(slide); }
+
+  setupMermaid();      // at once: Mermaid otherwise auto-renders every diagram on load, in hidden slides
+  enhanceNumbers();
+  enhanceCallouts();
+  enhanceSlideTypes();
+  enhanceCues();
+  enhanceBackups();
+  enhanceSources();
+  enhanceBuild();
+  pageNumbers();
+
+  window.deckReport = function () {
+    return $('.reveal .slides section').filter(function (s) { return !s.querySelector(':scope > section'); }).map(function (s) {
+      return { id: s.id, number: s.dataset.number || null, fit: s.dataset.fit ? parseFloat(s.dataset.fit) : 1,
+               overflow: !!s.dataset.overflow, compact: s.dataset.compact || '' };
+    });
+  };
+  window.deckShow = show;   // used by check-deck.py to render and fit a slide on demand
+
+  Reveal.initialize({
+    width: 1280, height: 720, margin: 0.04, minScale: 0.2, maxScale: 1.6,
+    center: false, hash: true, controls: true, progress: true,
+    slideNumber: false, transition: 'fade', transitionSpeed: 'fast',
+    plugins: window.RevealNotes ? [window.RevealNotes] : []
+  });
+  Reveal.on('ready', function (e) { show(e.currentSlide); });
+  Reveal.on('slidechanged', function (e) { show(e.currentSlide); });
+  window.addEventListener('resize', function () { fitSlide(Reveal.getCurrentSlide()); });
+})();
+
+</script>
+</body>
+</html>

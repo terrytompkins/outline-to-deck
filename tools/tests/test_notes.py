@@ -30,5 +30,13 @@ class NotesTests(unittest.TestCase):
             self.assertIn("| 3.2 | x |", second)
 
 
+
+class ReferenceTests(unittest.TestCase):
+    def test_reference_in_sync(self):
+        import subprocess, sys
+        r = subprocess.run([sys.executable, os.path.join(TOOLS, "sync-reference.py"), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

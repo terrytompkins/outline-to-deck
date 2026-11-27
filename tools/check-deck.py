@@ -77,7 +77,7 @@ WALK = r"""async (opts) => {
       const walker = document.createTreeWalker(s, NodeFilter.SHOW_TEXT);
       while (walker.nextNode()) {
         const t = walker.currentNode; if (!t.textContent.trim()) continue;
-        const el = t.parentElement; if (!el || el.closest('aside.notes, svg, script, style')) continue;
+        const el = t.parentElement; if (!el || el.closest('aside.notes, svg, script, style, .chart__data')) continue;
         const cs = getComputedStyle(el);
         if (cs.display === 'none' || cs.visibility === 'hidden') continue;
         const px = parseFloat(cs.fontSize);

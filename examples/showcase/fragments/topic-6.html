@@ -1,0 +1,23 @@
+<section id="s6">
+<section class="topic" data-number="6">
+  <h2>Phase 2: the deck</h2>
+  <ul><li>One self-contained HTML file; Reveal.js and Mermaid from pinned CDN versions.</li><li>The tools build and check it; Claude writes the slides.</li><li>Every slide is verified before the deck is called done.</li></ul>
+  <footer><a href="https://revealjs.com/vertical-slides/">Reveal.js: vertical slides</a></footer>
+</section>
+<section data-number="6.1">
+  <h3>Build steps</h3>
+  <div class="layout layout--process" data-layout="process" data-variant="steps" data-count="5">
+  <ol class="layout__items"><li class="layout__item"><span class="layout__label">Lint</span><span class="layout__detail">check the outline</span></li><li class="layout__item"><span class="layout__label">Write</span><span class="layout__detail">slide fragments</span></li><li class="layout__item is-key"><span class="layout__label">Assemble</span><span class="layout__detail">one file</span></li><li class="layout__item"><span class="layout__label">Check</span><span class="layout__detail">every slide</span></li><li class="layout__item"><span class="layout__label">Notes</span><span class="layout__detail">record the build</span></li></ol>
+</div>
+</section>
+<section data-number="6.2">
+  <h3>Tests as the tools grew</h3>
+  <figure class="chart" data-type="line" data-title="Automated tests in the repository, by milestone"><table><thead><tr><th>Milestone</th><th>Tests</th></tr></thead><tbody><tr><td>M2 tools</td><td>44</td></tr><tr><td>M3 layouts</td><td>46</td></tr><tr><td>M4 charts</td><td>47</td></tr><tr><td>M5 workflow</td><td>50</td></tr></tbody></table></figure>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/commits/main">outline-to-deck: commit history</a></footer>
+</section>
+<section data-number="6.3">
+  <h3>Check every slide</h3>
+  <figure class="chart" data-type="bar" data-title="The twelve checks in the build spec, by kind"><table><thead><tr><th>Kind</th><th>Checks</th></tr></thead><tbody><tr><td>Fit and footer</td><td>3</td></tr><tr><td>Text and tags</td><td>2</td></tr><tr><td>Outline match</td><td>2</td></tr><tr><td>Errors and clicks</td><td>2</td></tr><tr><td>Diagrams</td><td>1</td></tr><tr><td>Layouts</td><td>1</td></tr><tr><td>Screenshots</td><td>1</td></tr></tbody></table></figure>
+  <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/DECK-BUILD-SPEC.md">outline-to-deck: DECK-BUILD-SPEC.md</a></footer>
+</section>
+</section>
