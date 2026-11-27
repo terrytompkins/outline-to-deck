@@ -201,6 +201,11 @@ class LintTests(unittest.TestCase):
         self.assertEqual(len(stats["tbd"]), 1)
         self.assertEqual(len(stats["unverified"]), 1)
 
+    def test_placeholders_in_working_aids_not_counted(self):
+        _, stats = run(f"## Changes by version (outline-only working aid)\n- v0.2: removed [UNVERIFIED] and [TBD: x]\n\n## 1. A [All]\n{MAIN}")
+        self.assertEqual(stats["unverified"], [])
+        self.assertEqual(stats["tbd"], [])
+
     def test_placeholder_heading(self):
         issues, stats = run(f"## 1. [TBD: first topic] [All] [Core]\n{MAIN}")
         self.assertEqual(stats["horizontal"], 1)

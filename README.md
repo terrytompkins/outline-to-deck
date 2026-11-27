@@ -5,7 +5,7 @@ Turn an idea into a presentation with Claude: a researched, numbered Markdown ou
 - **Tag what content is, not how it looks.** Callouts, quizzes, recaps, key figures, quotes and backup slides are tags in the outline; the style decides their look.
 - **SmartArt-style layouts from bullets.** One line (`Layout: process`) turns a list into a process, timeline, matrix, cycle, pyramid, Venn and more: eleven layouts in all.
 - **Three styles, every tag in each.** Base, Field Guide and Toons; make your own from a template.
-- **Tools do the mechanical work.** A linter checks the outline; an assembler builds the deck; a checker verifies every slide.
+- **Tools do the mechanical work.** A linter checks the outline; a drafter writes the slide markup; an assembler builds the deck; a checker verifies every slide.
 
 See [the showcase](examples/showcase/) for one outline built in all three styles.
 
@@ -27,7 +27,7 @@ Claude interviews you for the brief, researches and drafts the outline, revises 
 | `PROMPTS.md` | Prompts for manual mode |
 | `knowledge/` | State-file starters, the rules, and the styles |
 | `runtime/` | CSS and JavaScript inlined into every deck |
-| `tools/` | Linter, assembler, checker, notes writer, bundle builder, library pins, tests |
+| `tools/` | Linter, fragment drafter, assembler, checker, notes writer, bundle builder, library pins, tests |
 | `examples/showcase/` | One outline built in all three styles |
 | `docs/REFERENCE.md` | The complete reference: how everything works and why |
 | `docs/V2-PLAN.md`, `docs/M0-FINDINGS.md`, `docs/history/` | The v2 plan, test findings and earlier designs |

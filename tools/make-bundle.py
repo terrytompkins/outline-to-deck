@@ -24,7 +24,7 @@ ROOT = os.path.dirname(HERE)
 
 FILES = [
     "tools/outline_parser.py", "tools/lint-outline.py", "tools/assemble-deck.py", "tools/check-deck.py",
-    "tools/write-notes.py", "tools/render_blocks.py",
+    "tools/write-notes.py", "tools/render_blocks.py", "tools/draft-fragments.py",
     "tools/pins.json", "runtime/deck.js", "runtime/base.css", "runtime/layouts.js", "runtime/layouts.css", "runtime/charts.js",
     "knowledge/TAGS.md", "knowledge/LAYOUTS.md", "package.json",
 ]
@@ -42,6 +42,7 @@ Put the presentation's OUTLINE.md and BRIEF.md in this folder, and the active ST
 knowledge/styles/ (read them with project_read and copy them here exactly), then:
 
     python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge
+    python3 tools/draft-fragments.py OUTLINE.md --brief BRIEF.md --out frags [--pass 1]   # then finish the drafts
     python3 tools/assemble-deck.py build --fragments frags --style STYLE --outline OUTLINE.md --out deck.html
     python3 tools/check-deck.py deck.html --outline OUTLINE.md --shots shots --json > check.json
     python3 tools/write-notes.py --outline OUTLINE.md --lint lint.json --check check.json --deck deck.html --style STYLE

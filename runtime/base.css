@@ -196,3 +196,5 @@ html,body,.reveal-viewport{background:var(--surface)}
 
 /* ---------- Print: frames become links ---------- */
 @media print{.reveal figure.embed iframe{display:none}}
+/* draft placeholder from draft-fragments.py; check-deck.py fails any deck that still has one */
+.reveal [data-draft]{border:3px dashed var(--callout-watchout);padding:.6em 1em;color:var(--caption)}

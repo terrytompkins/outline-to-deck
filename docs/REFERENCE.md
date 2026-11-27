@@ -21,7 +21,8 @@ flowchart LR
   T[TAGS.md, LAYOUTS.md, style] --> P1
   P1 --> L{lint-outline}
   L -->|issues| P1
-  L -->|clean and approved| P2[Phase 2: Claude writes fragments]
+  L -->|clean and approved| DF[draft-fragments]
+  DF --> P2[Claude finishes visuals and wording]
   P2 --> A[assemble-deck: runtime, CSS, CDN pins]
   A --> C{check-deck}
   C -->|fit problem| F[fallback ladder] --> P2
@@ -33,7 +34,8 @@ flowchart LR
 |---|---|
 | Research, outline content, proposing tags and layouts, writing Mermaid | Claude |
 | Vocabulary, required fields, limits, numbering, counts | `lint-outline.py` |
-| Slide content and semantic markup | Claude, to the contract in DECK-BUILD-SPEC.md §4 |
+| Slide markup for everything the outline determines | `draft-fragments.py`, to the contract in DECK-BUILD-SPEC.md §4 |
+| Visuals, wording that reads well on a slide | Claude, editing the drafts |
 | Reveal setup, chips, labels, icons, cues, page numbers, autofit, Mermaid, layout geometry, charts | `runtime/deck.js`, `layouts.js`, `charts.js` (inlined) |
 | Every tag's and layout's look | `runtime/base.css`, `layouts.css`, and the style's CSS (inlined) |
 | One file with CDN tags, SRI hashes, fallbacks and inlined images | `assemble-deck.py` |
@@ -293,6 +295,7 @@ Included: Base, Field Guide (a trail guide: spruce and moss, notched trail marke
 | Tool | Command | Notes |
 |---|---|---|
 | Linter | `python3 tools/lint-outline.py OUTLINE.md [--knowledge DIR] [--json] [--codes]` | E codes stop a slide; W codes are fit and balance; I codes are notes. Exit 0, 1 or 2. |
+| Drafter | `python3 tools/draft-fragments.py OUTLINE.md --brief BRIEF.md --out frags [--pass 1] [--topics N,M] [--force] [--json]` | Writes every fragment the outline determines; marks visuals as `data-draft` for Claude; merges into existing topic files instead of overwriting |
 | Assembler | `python3 tools/assemble-deck.py build --fragments DIR --style NAME --outline OUTLINE.md --out DECK.html` | Also `replace-topic DECK N FRAGMENT` and `edit DECK --find … --replace …` (each must match once) |
 | Checker | `python3 tools/check-deck.py DECK.html [--outline OUTLINE.md] [--shots DIR] [--step] [--json]` | Needs Playwright; serves libraries from `node_modules` |
 | Notes | `python3 tools/write-notes.py --outline … --lint lint.json --check check.json --deck … --style … [--fallback …]` | `--previous` and `--rebuilt` for partial rebuilds |
@@ -305,7 +308,7 @@ The parser, linter, assembler and notes writer use only Python's standard librar
 
 ## 12. Verification and build notes
 
-The checker verifies, on every slide in final state: visible; no overflow; no footer collision; diagrams rendered with no clipped labels; no console errors; layouts match their contract with no clipped text; no visible text below 14px; working-aid text never visible; and, with `--outline`, every outline slide present with its layouts and speaker notes. `--step` clicks through every fragment. Names of individuals and screenshots are checked by eye.
+The checker verifies, on every slide in final state: visible; no overflow; no footer collision; diagrams rendered with no clipped labels; no console errors; layouts match their contract with no clipped text; no visible text below 14px; working-aid text never visible; no unfinished draft; and, with `--outline`, every outline slide present with its layouts and speaker notes. `--step` clicks through every fragment. Names of individuals and screenshots are checked by eye.
 
 OUTPUT-NOTES.md records each build: summary and numbers, fallbacks and workarounds (one row per section), autofit and compaction, placeholders and unverified claims, linter findings, open issues.
 
@@ -348,7 +351,7 @@ Full log: `docs/V2-PLAN.md` §2; test results: `docs/M0-FINDINGS.md`; earlier de
 | Brief | BRIEF.md: everything specific to one presentation |
 | Gate | The DECISIONS.md entry that opens Phase 2 |
 | Horizontal / vertical slide | Reveal.js's two dimensions: topics left to right, detail below each |
-| Fragment | (1) A slide-markup file Claude writes per topic; (2) Reveal's click-to-reveal element |
+| Fragment | (1) A slide-markup file per topic, drafted by `draft-fragments.py` and finished by Claude; (2) Reveal's click-to-reveal element |
 | Working aid | An outline-only tag, always stripped |
 | Degrade | A tag a style deliberately renders more simply |
 | Role token | A CSS custom property every style must define, such as `--accent` |

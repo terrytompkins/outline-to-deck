@@ -25,7 +25,7 @@ The linter reports three balance warnings (W108): sections 3, 4 and 5 carry more
 |---|---|
 | Main points, origin tags, audience and priority tags | every top-level section |
 | `[TBD: …]` placeholder chip | 1 |
-| `[UNVERIFIED]` pill, reason in the notes | 1.1, 5.1 |
+| `[UNVERIFIED]` pill, reason in the notes | 1.1 |
 | Source links and `As of` in the footer | 1, 1.3, 3, 4, 4.1, 5.1, 6, 6.2, 6.3 |
 | Speaker notes | title, 1 |
 | `Suggested visual:` | 1.1 |

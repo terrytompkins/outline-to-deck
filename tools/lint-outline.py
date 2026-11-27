@@ -147,14 +147,17 @@ class Linter:
         t = tag.strip()
         if t.startswith("!") or t in (" ", "x", "X"):
             return
+        on_slide = sec.kind in ("topic", "front") and not sec.outline_only   # working aids don't count
         if t.startswith("TBD:"):
-            self.stats["tbd"].append(sec.number or sec.title)
+            if on_slide:
+                self.stats["tbd"].append(sec.number or sec.title)
             return
         if t == "TBD" or t.startswith("TBD "):
             self.add("E001", line, "Write placeholders as [TBD: description].", sec)
             return
         if t == "UNVERIFIED" or t.startswith("UNVERIFIED:"):
-            self.stats["unverified"].append(sec.number or sec.title)
+            if on_slide:
+                self.stats["unverified"].append(sec.number or sec.title)
             return
         if t in self.reg.working_aids:
             return

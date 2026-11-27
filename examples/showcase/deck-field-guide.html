@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Outline to deck: write it, tag it, build it once</title>
-<!-- outline-to-deck v2 | built 2026-11-27 | style field-guide | reveal 6.0.2 | mermaid 12.3.0 | outline v1.0 -->
+<!-- outline-to-deck v2 | built 2026-11-27 | style field-guide | reveal 6.0.2 | mermaid 12.3.0 | outline v1.1 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/reset.css" integrity="sha384-eEwBkZrOoy1kAZn00sDVAezj2h5GAr6zv/XHy9KFt+7ios1iEkSMZObfrISpChg5" crossorigin="anonymous" onerror="this.onerror=null;this.integrity='sha384-eEwBkZrOoy1kAZn00sDVAezj2h5GAr6zv/XHy9KFt+7ios1iEkSMZObfrISpChg5';this.href='https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reset.css'">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.2/dist/reveal.css" integrity="sha384-rKClnwfQQ2b7LYSOAhRvm5m4LS7QKciQTAXBpVvr30y6oGB+ZBBXlpDnvFqlv5Eu" crossorigin="anonymous" onerror="this.onerror=null;this.integrity='sha384-y8aVlk0sz+/5/l0RXQJ54TW8lWQ0BNtc1kdL5WbTyVEEwWuscv9mN1FfhK61Oaj1';this.href='https://cdnjs.cloudflare.com/ajax/libs/reveal.js/6.0.2/reveal.css'">
 <style>
@@ -207,6 +207,8 @@ html,body,.reveal-viewport{background:var(--surface)}
 
 /* ---------- Print: frames become links ---------- */
 @media print{.reveal figure.embed iframe{display:none}}
+/* draft placeholder from draft-fragments.py; check-deck.py fails any deck that still has one */
+.reveal [data-draft]{border:3px dashed var(--callout-watchout);padding:.6em 1em;color:var(--caption)}
 
 /* outline-to-deck layouts.css: the 11 layouts in knowledge/LAYOUTS.md, on role tokens.
    Sizes are in em and %, so autofit scales them. Layout text is never smaller than body text.
@@ -492,9 +494,9 @@ html,body,.reveal-viewport{background:var(--surface)}
   <h3>Structure maps to slides</h3>
   <figure class="diagram"><pre class="mermaid">
 flowchart LR
-  A[&quot;## 2. Topic&quot;] --&gt; B[&quot;Horizontal slide&quot;]
-  C[&quot;### 2.1 Detail&quot;] --&gt; D[&quot;Vertical slide below it&quot;]
-  E[&quot;Speaker notes line&quot;] --&gt; F[&quot;Presenter view only&quot;]
+  A["## 2. Topic"] --> B["Horizontal slide"]
+  C["### 2.1 Detail"] --> D["Vertical slide below it"]
+  E["Speaker notes line"] --> F["Presenter view only"]
   class B,D key
 </pre></figure>
   <div class="callout" data-type="tip"><p>Freeze numbering from v0.2 on. New sections get the next number; the time plan sets the order.</p></div>
@@ -605,10 +607,9 @@ flowchart LR
 <section data-number="5.1">
   <h3>Readable labels</h3>
   <figure class="chart" data-type="column" data-title="Callout label contrast in Field Guide, v1 and v2" data-unit="ratio"><table><thead><tr><th>Callout</th><th>v1</th><th>v2</th></tr></thead><tbody><tr><td>Tip</td><td>2.0</td><td>6.3</td></tr><tr><td>Watch out</td><td>3.8</td><td>5.2</td></tr><tr><td>Field note</td><td>4.3</td><td>5.7</td></tr><tr><td>Remember</td><td>4.6</td><td>6.3</td></tr></tbody></table></figure>
-  <ul><li>Body text needs at least 4.5:1 contrast. <span class="unverified">Unverified</span></li></ul>
+  <ul><li>Body text needs at least 4.5:1 contrast.</li></ul>
   <div class="callout" data-type="fieldnote"><p>Three of Field Guide's v1 callout labels were below 4.5:1. v2's style schema gives every label its own darker text color.</p></div>
   <footer><span class="asof">As of November 27, 2026</span><a href="https://www.w3.org/TR/WCAG22/#contrast-minimum">WCAG 2.2: contrast minimum</a><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/styles/STYLE-FIELD-GUIDE.md">outline-to-deck: STYLE-FIELD-GUIDE.md</a></footer>
-  <aside class="notes">Unverified: WCAG page not re-checked for this showcase.</aside>
 </section>
 <section data-number="5.2">
   <h3>Before and after a style switch</h3>
@@ -637,7 +638,7 @@ flowchart LR
 </section>
 <section data-number="6.3">
   <h3>Check every slide</h3>
-  <figure class="chart" data-type="bar" data-title="The twelve checks in the build spec, by kind"><table><thead><tr><th>Kind</th><th>Checks</th></tr></thead><tbody><tr><td>Fit and footer</td><td>3</td></tr><tr><td>Text and tags</td><td>2</td></tr><tr><td>Outline match</td><td>2</td></tr><tr><td>Errors and clicks</td><td>2</td></tr><tr><td>Diagrams</td><td>1</td></tr><tr><td>Layouts</td><td>1</td></tr><tr><td>Screenshots</td><td>1</td></tr></tbody></table></figure>
+  <figure class="chart" data-type="bar" data-title="The thirteen checks in the build spec, by kind"><table><thead><tr><th>Kind</th><th>Checks</th></tr></thead><tbody><tr><td>Fit and footer</td><td>3</td></tr><tr><td>Text and tags</td><td>2</td></tr><tr><td>Outline match</td><td>2</td></tr><tr><td>Errors and clicks</td><td>2</td></tr><tr><td>Diagrams</td><td>1</td></tr><tr><td>Layouts</td><td>1</td></tr><tr><td>Screenshots</td><td>1</td></tr><tr><td>Unfinished drafts</td><td>1</td></tr></tbody></table></figure>
   <footer><span class="asof">As of November 27, 2026</span><a href="https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/DECK-BUILD-SPEC.md">outline-to-deck: DECK-BUILD-SPEC.md</a></footer>
 </section>
 </section>

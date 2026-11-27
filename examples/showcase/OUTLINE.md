@@ -1,12 +1,13 @@
 # OUTLINE — Outline to deck: write it, tag it, build it once
 
-<!-- status: version 1.0 | phase 2 | last written 2026-11-27 | approved: v1.0 | reviewed: v1.0 | deck: complete -->
+<!-- status: version 1.1 | phase 2 | last written 2026-11-27 | approved: v1.1 | reviewed: v1.0 | deck: complete -->
 
-**Status:** v1.0, approved November 27, 2026. The showcase: it uses every tag family, all eleven layouts and all three chart types, and is built in every style.
+**Status:** v1.1, approved November 27, 2026. The showcase: it uses every tag family, all eleven layouts and all three chart types, and is built in every style.
 **Session:** 25-minute walkthrough
 **Facts verified:** November 27, 2026
 
 ## Changes by version (outline-only working aid)
+- v1.1: §5.1 contrast figure verified against WCAG 2.2 (W3C Recommendation, 12 December 2024); its [UNVERIFIED] marker removed. §6.3 counts the new unfinished-draft check (thirteen checks).
 - v1.0: showcase outline for outline-to-deck v2.
 
 ## Central message
@@ -248,7 +249,7 @@ unit: ratio
 | Field note | 4.3 | 5.7 |
 | Remember | 4.6 | 6.3 |
 ```
-- Body text needs at least 4.5:1 contrast. [UNVERIFIED: WCAG page not re-checked for this showcase] ([WCAG 2.2: contrast minimum](https://www.w3.org/TR/WCAG22/#contrast-minimum))
+- Body text needs at least 4.5:1 contrast. ([WCAG 2.2: contrast minimum](https://www.w3.org/TR/WCAG22/#contrast-minimum))
 ([outline-to-deck: STYLE-FIELD-GUIDE.md](https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/styles/STYLE-FIELD-GUIDE.md)) As of November 27, 2026
 
 > [!FIELDNOTE]
@@ -295,7 +296,7 @@ title: Automated tests in the repository, by milestone
 ### 6.3 Check every slide [Technical]
 ```chart
 type: bar
-title: The twelve checks in the build spec, by kind
+title: The thirteen checks in the build spec, by kind
 | Kind | Checks |
 | Fit and footer | 3 |
 | Text and tags | 2 |
@@ -304,6 +305,7 @@ title: The twelve checks in the build spec, by kind
 | Diagrams | 1 |
 | Layouts | 1 |
 | Screenshots | 1 |
+| Unfinished drafts | 1 |
 ```
 ([outline-to-deck: DECK-BUILD-SPEC.md](https://github.com/terrytompkins/outline-to-deck/blob/main/knowledge/DECK-BUILD-SPEC.md)) As of November 27, 2026
 

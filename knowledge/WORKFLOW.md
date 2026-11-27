@@ -113,15 +113,15 @@ Each step lists the files to open, the work, what is written, and where it pause
 ### F. Deck, pass 1 (prompt 6), fresh chat recommended
 - **Open:** DECK-BUILD-SPEC.md, LAYOUTS.md §4, the style guide, OUTLINE.md, OUTPUT-NOTES.md. Ask for `deck-tools.zip` if it isn't attached.
 - Confirm the pinned libraries, the style, and anything the linter says can't be rendered. Pause only for a decision.
-- Build pass 1 (title, agenda, every horizontal slide) with the tools, check it, send the file, set `deck: pass 1`, write OUTLINE.md (status only) and OUTPUT-NOTES.md.
+- Build pass 1 (title, agenda, every horizontal slide): draft the fragments with `draft-fragments.py --pass 1`, finish them, assemble, check, send the file, set `deck: pass 1`, write OUTLINE.md (status only) and OUTPUT-NOTES.md.
 - **Pause:** "Open it in a browser; the in-chat preview can't load the slide library. Tell me what to adjust, or say 'go' for pass 2."
 
 ### G. Deck, pass 2 (prompt 7), same chat
-- Build the Core sections' vertical slides, send an interim file, set `deck: core`; carry on with Brief and Self-guided unless asked to stop.
+- Draft the Core sections' vertical slides (`draft-fragments.py --topics …`; existing slides are kept), finish them, assemble, send an interim file, set `deck: core`; carry on with Brief and Self-guided unless asked to stop.
 - Run every check in DECK-BUILD-SPEC.md §7, report the results as numbers, write OUTPUT-NOTES.md, set `deck: complete`, write OUTLINE.md. **Pause:** offer H.
 
 ### H. After the build (prompts 8 and 9)
-- **Content change:** propose it; once approved, update OUTLINE.md first (bump the version, add a Decided entry), rebuild only the affected topics (`replace-topic`), re-check, update OUTPUT-NOTES.md (`--previous`, `--rebuilt`), send the deck.
+- **Content change:** propose it; once approved, update OUTLINE.md first (bump the version, add a Decided entry), re-draft only the affected topics (`draft-fragments.py --topics N --force`), finish them, `replace-topic`, re-check, update OUTPUT-NOTES.md (`--previous`, `--rebuilt`), send the deck.
 - **Style switch:** set the style in BRIEF.md, open the new style guide, lint for degrade warnings, rebuild with the new style. Every style renders every tag, so no tag mapping is needed.
 - **Wrap-up:** summarize the deck file, the outline version it was built from, placeholder chips still showing, and where BRIEF.md says it will be hosted.
 
@@ -146,6 +146,7 @@ Each step lists the files to open, the work, what is written, and where it pause
 | Tool | Use |
 |---|---|
 | `lint-outline.py` | Phase 1 checkpoints, the review, approval counts, and before Phase 2 |
+| `draft-fragments.py` | Draft the slide fragments from the outline; Claude finishes visuals and wording |
 | `assemble-deck.py` | Build the deck from fragments; `replace-topic` and `edit` for changes |
 | `check-deck.py` | Verify every slide; screenshots; JSON for the notes |
 | `write-notes.py` | Write OUTPUT-NOTES.md |

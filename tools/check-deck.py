@@ -10,6 +10,7 @@ Checks (DECK-BUILD-SPEC.md, verification checklist):
   tags        no outline working-aid text is visible (text inside <code> is skipped)
   tiny        no visible text smaller than 14px at 1280x720
   layouts     each .layout matches its contract; no item text is clipped
+  drafts      no data-draft placeholder from draft-fragments.py is left
   outline     (--outline) every outline slide is in the deck, with its layouts and speaker notes
 
 Slides are checked in final state: every fragment shown. --step adds a pass that clicks through
@@ -107,7 +108,7 @@ WALK = r"""async (opts) => {
       const clone = s.cloneNode(true);
       clone.querySelectorAll('aside.notes, code, pre.mermaid').forEach(a => a.remove());
       out.push({h, v, id: s.id || '', number: s.dataset.number || null, type: s.dataset.type || null, label, visible,
-                overflow, collision, mm, mmok, mmClipped, tiny: tiny.slice(0, 5), layouts,
+                overflow, collision, mm, mmok, mmClipped, tiny: tiny.slice(0, 5), layouts, drafts: s.querySelectorAll('[data-draft]').length,
                 notes: !!s.querySelector('aside.notes'), text: clone.textContent,
                 fit: s.dataset.fit ? parseFloat(s.dataset.fit) : 1, compact: s.dataset.compact || '',
                 runtimeOverflow: !!s.dataset.overflow});
@@ -246,6 +247,8 @@ def main(argv=None):
                 problems.append(f"{where}: layout {lay['name']}: {pr}")
             if lay["clipped"]:
                 problems.append(f"{where}: layout {lay['name']}: {lay['clipped']} item text(s) clipped")
+        if s.get("drafts"):
+            problems.append(f"{where}: {s['drafts']} draft placeholder(s) not finished (data-draft)")
         for t in LEAKS + audience + a.tags:
             if t in s["text"]:
                 problems.append(f"{where}: working-aid text '{t}' is visible")

@@ -15,15 +15,15 @@ The tools come in `deck-tools.zip`, attached to the chat (see its `README-BUNDLE
 
 1. **Confirm** the pinned library versions, the style, and anything the linter reports.
 2. **Lint:** `python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge` (and again with `--json > lint.json` for the notes). Errors (E codes) stop the affected slide; fix them with the presenter first.
-3. **Write fragments** to a `frags/` folder, following §4: `title.html`, `agenda.html`, `topic-N.html` for each top-level section, and `appendix.html` / `sources.html` when needed.
+3. **Draft, then finish, the fragments:** `python3 tools/draft-fragments.py OUTLINE.md --brief BRIEF.md --out frags --pass 1` (pass 2: the same command without `--pass 1`; it keeps every slide already in a topic file and adds the missing ones). The tool writes everything the outline determines, following §4. Then edit the files in `frags/`: design each `data-draft="visual"` placeholder as an inline SVG (the tool lists them), and tighten anything that reads poorly on a slide. Never change content the outline doesn't support; a content change goes back to the outline. `check-deck.py` fails a deck with any draft left.
 4. **Assemble:** `python3 tools/assemble-deck.py build --fragments frags --style STYLE --outline OUTLINE.md --out DECK.html` (add `--build on` if `BRIEF.md` turns build animations on).
 5. **Check:** `python3 tools/check-deck.py DECK.html --outline OUTLINE.md --shots shots`, then `--json > check.json` for the notes. Fix fit problems with the fallback ladder (`LAYOUTS.md` §5), re-assemble, re-check.
 6. **Look** at the screenshots: spacing, contrast, placement.
 7. **Write `OUTPUT-NOTES.md`:** `python3 tools/write-notes.py --outline OUTLINE.md --lint lint.json --check check.json --deck DECK.html --style STYLE`, adding one `--fallback "section|what|why|action|suggested outline change"` for each fallback you applied (on a partial rebuild, also `--previous OUTPUT-NOTES.md --rebuilt N`). Save the result to project knowledge, and set `deck:` in `OUTLINE.md`'s status comment.
 
-Pass 1 builds the title, agenda and every horizontal slide; pass 2 adds vertical slides by priority. Later changes: `assemble-deck.py replace-topic DECK.html N frags/topic-N.html`, and `assemble-deck.py edit` for exact-string fixes (each must match exactly once).
+Pass 1 builds the title, agenda and every horizontal slide; pass 2 adds vertical slides by priority (`--topics 1,3` drafts only those sections). Later changes: re-draft the changed topic with `--topics N --force` (then redo its visuals), `assemble-deck.py replace-topic DECK.html N frags/topic-N.html`, and `assemble-deck.py edit` for exact-string fixes (each must match exactly once).
 
-**If the bundle isn't attached,** ask for it. If the presenter can't attach it, write the deck following §4 by hand with the CSS and runtime from the style guides, and run the §7 checks yourself; note in `OUTPUT-NOTES.md` that the tools weren't used.
+**If the bundle isn't attached,** ask for it. If the presenter can't attach it, write the fragments following §4 by hand, then the deck with the CSS and runtime from the style guides, and run the §7 checks yourself; note in `OUTPUT-NOTES.md` that the tools weren't used.
 
 ## 3. Mapping from the outline
 
@@ -122,7 +122,7 @@ Number chips and trail markers from `data-number`; slide-type labels and icons; 
 
 ## 7. Verification
 
-`check-deck.py` automates 1–8 and 10–11. Report results as numbers, and copy them into `OUTPUT-NOTES.md`.
+`check-deck.py` automates 1–8, 10–11 and 13. Report results as numbers, and copy them into `OUTPUT-NOTES.md`.
 
 1. Visible when current.
 2. No overflow of the 1280×720 frame.
@@ -136,6 +136,7 @@ Number chips and trail markers from `data-number`; slide-type labels and icons; 
 10. Final state and click-through both clean (`--step`).
 11. Outline cross-check (`--outline`): every outline slide is in the deck with its layouts.
 12. Screenshots reviewed for spacing, contrast and placement.
+13. No `data-draft` placeholder left from `draft-fragments.py`.
 
 ## 8. Known pitfalls
 
