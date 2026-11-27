@@ -185,6 +185,30 @@ Main points:
 python3 tools/check-deck.py deck.html --shots shots
 ```
 
+### 4.2 Build time by deck size [Technical]
+```chart
+type: column
+title: Minutes to build and check
+unit: minutes
+| Slides | Build | Check |
+| 20 | 3 | 1 |
+| 60 | 7 | 2 |
+| 140 | 14 | 4 |
+```
+([Example measurements](https://example.com/build-times)) As of November 27, 2026
+
+### 4.3 Revisions per week [Technical]
+```chart
+type: line
+title: Outline revisions per week
+| Week | Revisions |
+| W1 | 2 |
+| W2 | 5 |
+| W3 | 4 |
+| W4 | 1 |
+```
+([Example log](https://example.com/revisions)) As of November 27, 2026
+
 ---
 
 ## Source reconciliation (outline-only working aid)

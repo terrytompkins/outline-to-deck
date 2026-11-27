@@ -164,3 +164,9 @@
 .reveal .layout--venn .layout__item.is-key .layout__label{color:var(--emphasis)}
 .reveal .layout--venn .venn-overlap{position:absolute;transform:translate(-50%,-50%);font-weight:700;text-align:center;width:6em;z-index:2}
 .reveal .layout__frame .venn-set{stroke:var(--accent);stroke-width:2px}
+
+/* ---------- Charts (drawn by runtime/charts.js) ---------- */
+.reveal figure.chart{font-size:.7em;margin:.4em 0 0}
+.reveal figure.chart .chart__title{font-size:1em;font-weight:700;margin:0 0 .4em}
+.reveal figure.chart .chart__svg{display:block;width:100%;height:auto;max-height:420px;overflow:visible}
+.reveal figure.chart table.chart__data{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

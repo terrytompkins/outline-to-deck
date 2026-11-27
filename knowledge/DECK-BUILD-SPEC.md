@@ -14,12 +14,12 @@ How to turn the approved `OUTLINE.md` into a deck. Tags are defined in `TAGS.md`
 The tools come in `deck-tools.zip`, attached to the chat (see its `README-BUNDLE.md`). Unzip it, run `npm install` there, and copy `OUTLINE.md` and `BRIEF.md` into the folder exactly as `project_read` returns them.
 
 1. **Confirm** the pinned library versions, the style, and anything the linter reports.
-2. **Lint:** `python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge`. Errors (E codes) stop the affected slide; fix them with the presenter first.
+2. **Lint:** `python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge` (and again with `--json > lint.json` for the notes). Errors (E codes) stop the affected slide; fix them with the presenter first.
 3. **Write fragments** to a `frags/` folder, following §4: `title.html`, `agenda.html`, `topic-N.html` for each top-level section, and `appendix.html` / `sources.html` when needed.
 4. **Assemble:** `python3 tools/assemble-deck.py build --fragments frags --style STYLE --outline OUTLINE.md --out DECK.html` (add `--build on` if `BRIEF.md` turns build animations on).
-5. **Check:** `python3 tools/check-deck.py DECK.html --outline OUTLINE.md --shots shots --json`. Fix fit problems with the fallback ladder (`LAYOUTS.md` §5), re-assemble, re-check.
+5. **Check:** `python3 tools/check-deck.py DECK.html --outline OUTLINE.md --shots shots`, then `--json > check.json` for the notes. Fix fit problems with the fallback ladder (`LAYOUTS.md` §5), re-assemble, re-check.
 6. **Look** at the screenshots: spacing, contrast, placement.
-7. **Write `OUTPUT-NOTES.md`** from the checker's JSON, and set `deck:` in `OUTLINE.md`'s status comment.
+7. **Write `OUTPUT-NOTES.md`:** `python3 tools/write-notes.py --outline OUTLINE.md --lint lint.json --check check.json --deck DECK.html --style STYLE`, adding one `--fallback "section|what|why|action|suggested outline change"` for each fallback you applied (on a partial rebuild, also `--previous OUTPUT-NOTES.md --rebuilt N`). Save the result to project knowledge, and set `deck:` in `OUTLINE.md`'s status comment.
 
 Pass 1 builds the title, agenda and every horizontal slide; pass 2 adds vertical slides by priority. Later changes: `assemble-deck.py replace-topic DECK.html N frags/topic-N.html`, and `assemble-deck.py edit` for exact-string fixes (each must match exactly once).
 

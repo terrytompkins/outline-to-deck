@@ -162,7 +162,7 @@ def cmd_build(a) -> int:
     pins = json.loads(read(a.pins))
     runtime_dir = a.runtime
     base_css = read(os.path.join(runtime_dir, "base.css")) + "\n" + read(os.path.join(runtime_dir, "layouts.css"))
-    deck_js = read(os.path.join(runtime_dir, "layouts.js")) + "\n" + read(os.path.join(runtime_dir, "deck.js"))
+    deck_js = "\n".join(read(os.path.join(runtime_dir, f)) for f in ("layouts.js", "charts.js", "deck.js"))
     style_path = find_style(a.style)
     style_css = read(style_path) if style_path else ""
     style_name = os.path.splitext(os.path.basename(style_path))[0] if style_path else "base"
@@ -237,7 +237,7 @@ def cmd_build(a) -> int:
 </div></div>
 {body_tags}
 <script>
-/* ---- runtime/layouts.js + runtime/deck.js ---- */
+/* ---- runtime/layouts.js + charts.js + deck.js ---- */
 {deck_js}
 </script>
 </body>

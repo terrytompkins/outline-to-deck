@@ -24,7 +24,8 @@ ROOT = os.path.dirname(HERE)
 
 FILES = [
     "tools/outline_parser.py", "tools/lint-outline.py", "tools/assemble-deck.py", "tools/check-deck.py",
-    "tools/pins.json", "runtime/deck.js", "runtime/base.css", "runtime/layouts.js", "runtime/layouts.css",
+    "tools/write-notes.py", "tools/render_blocks.py",
+    "tools/pins.json", "runtime/deck.js", "runtime/base.css", "runtime/layouts.js", "runtime/layouts.css", "runtime/charts.js",
     "knowledge/TAGS.md", "knowledge/LAYOUTS.md", "package.json",
 ]
 
@@ -42,7 +43,8 @@ copy them here exactly), then:
 
     python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge
     python3 tools/assemble-deck.py build --fragments frags --style STYLE --outline OUTLINE.md --out deck.html
-    python3 tools/check-deck.py deck.html --outline OUTLINE.md --shots shots --json
+    python3 tools/check-deck.py deck.html --outline OUTLINE.md --shots shots --json > check.json
+    python3 tools/write-notes.py --outline OUTLINE.md --lint lint.json --check check.json --deck deck.html --style STYLE
 
 STYLE is base, field-guide, toons, or the path to a style CSS file.
 """

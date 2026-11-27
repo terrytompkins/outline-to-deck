@@ -33,7 +33,7 @@ class DeckTests(unittest.TestCase):
     def test_good(self):
         for style in ("base", "field-guide", "toons"):
             res = self.check("good", style)
-            self.assertEqual(res["slides"], 22)
+            self.assertEqual(res["slides"], 24)
 
     def test_layouts(self):
         for style in ("base", "field-guide", "toons"):

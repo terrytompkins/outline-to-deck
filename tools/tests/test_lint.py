@@ -79,7 +79,7 @@ class LintTests(unittest.TestCase):
         issues, stats = lint.Linter(o, reg).run()
         bad = [i for i in issues if i["severity"] != "note"]
         self.assertEqual(bad, [], bad)
-        self.assertEqual(stats["slides"], 18)
+        self.assertEqual(stats["slides"], 20)
         self.assertEqual(stats["layouts"], {"process": 1, "matrix": 1, "columns": 1})
 
     def test_unknown_tag(self):
