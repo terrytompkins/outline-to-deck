@@ -14,7 +14,7 @@ See [the showcase](examples/showcase/) for one outline built in all three styles
 1. **Create a Claude Project.** Paste the text under the line in [PROJECT-INSTRUCTIONS.md](PROJECT-INSTRUCTIONS.md) into its instructions.
 2. **Upload the knowledge files** from `knowledge/`: BRIEF.md, OUTLINE.md, DECISIONS.md, OUTPUT-NOTES.md, WORKFLOW.md, OUTLINE-CONVENTIONS.md, TAGS.md, LAYOUTS.md, DECK-BUILD-SPEC.md, `styles/STYLE-BASE.md`, and the style you'll use (for example `styles/STYLE-FIELD-GUIDE.md`). Optionally add `tools/outline_parser.py` and `tools/lint-outline.py`.
 3. **Add your seed files** (notes, transcripts, earlier outlines). They're leads, not the scope.
-4. **Build the tools bundle** once: `python3 tools/make-bundle.py` writes `dist/deck-tools.zip`. Attach it to the chat when you build the deck (and in outline chats if you want linting).
+4. **Get the tools bundle:** download `deck-tools.zip` from the [latest release](https://github.com/terrytompkins/outline-to-deck/releases), or build it with `python3 tools/make-bundle.py` (it writes `dist/deck-tools.zip`). Attach it to the chat when you build the deck (and in outline chats if you want linting).
 5. **Start a chat:** "Use guided mode. Take me from my idea to a finished deck." In any later chat: "Continue my deck."
 
 Claude interviews you for the brief, researches and drafts the outline, revises it with you, has it reviewed in a fresh chat, asks for your approval, then builds and checks the deck. Prefer to drive each step yourself? Use the prompts in [PROMPTS.md](PROMPTS.md).
