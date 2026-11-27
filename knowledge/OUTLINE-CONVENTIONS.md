@@ -73,9 +73,9 @@ A slide's body is the content under its heading, up to the next heading. It may 
 
 - **Bullets**, including nested bullets one level deep.
 - **Inline markers** inside bullets: sources, `As of`, `[TBD: …]`, `[UNVERIFIED]`, origin tags.
-- **Key lines**: directives such as `Suggested visual:` and slide-type fields such as `Question:`. A key line may be written as its own paragraph or as a bullet, **except `Layout:` and `Diagram:`, which must be their own lines**: `Layout:` directly above the list it governs, and `Diagram:` directly above Claude's Mermaid block.
+- **Key lines**: directives such as `Suggested visual:` and slide-type fields such as `Question:`. A key line may be written as its own paragraph or as a bullet, **except `Layout:` and `Diagram:`, which must be their own lines**: `Layout:` directly above the list it governs (layout fields such as `X axis:` may sit between), and `Diagram:` directly above Claude's Mermaid block.
 - **Callouts** (`> [!TYPE]` block quotes).
-- **Fenced blocks** (`mermaid`, `chart`) and ordinary Markdown **tables**.
+- **Fenced blocks**: `mermaid` (under `Diagram:`), `chart`, and code blocks in any other language. Ordinary Markdown **tables**.
 - **`Speaker notes:`**, as a paragraph or bullet.
 
 Recommended order: main content, then any callout, then speaker notes last.

@@ -29,15 +29,15 @@ Square brackets are a closed vocabulary: only the tags in this file, the audienc
 7. **Never invent content.** Missing facts stay `[TBD: …]`; quotes and figures come only from sources in the outline.
 
 <!-- registry: limits -->
-| Scope | Rule | Value |
-|---|---|---|
-| heading | slide-type tags per heading | 1 |
-| slide | callouts per slide | 1 |
-| slide | layouts per slide | 2 |
-| slide | `Diagram:` blocks per slide | 2 |
-| section | share of slides with a layout | 0.5 |
-| deck | share of vertical slides with no callout, at least | 0.5 |
-| deck | `WATCHOUT` on consecutive slides | no |
+| ID | Scope | Rule | Value |
+|---|---|---|---|
+| `slide-types-per-heading` | heading | slide-type tags per heading | 1 |
+| `callouts-per-slide` | slide | callouts per slide | 1 |
+| `layouts-per-slide` | slide | layouts per slide | 2 |
+| `diagrams-per-slide` | slide | `Diagram:` blocks per slide | 2 |
+| `section-layout-share` | section | share of slides with a layout, at most | 0.5 |
+| `deck-no-callout-share` | deck | share of vertical slides with no callout, at least | 0.5 |
+| `watchout-consecutive` | deck | `WATCHOUT` on consecutive slides | no |
 
 The layout and diagram limits per slide are **fit limits**: when two layouts or two diagrams don't fit at a readable size, Phase 2 moves the second one to a "(continued)" slide and records it in `OUTPUT-NOTES.md`. The other limits are rules the linter enforces.
 
@@ -149,6 +149,7 @@ Notes:
 |---|---|---|---|
 | `mermaid` | Claude only | Directly under a `Diagram:` line | Rendered by Mermaid on first view of the slide |
 | `chart` | The presenter or Claude, from numbers in the outline | Anywhere in a slide body | An SVG chart drawn by the deck runtime in the style's series colors |
+| any other language, or none | The presenter or Claude | Anywhere in a slide body | A code block, shown as written in `--font-code`; keep it to about 12 lines |
 
 **Chart blocks.** `key: value` lines, then a Markdown table. The first column holds categories, each further column is a series.
 
