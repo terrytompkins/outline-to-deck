@@ -53,6 +53,7 @@ v2 stays a **Claude Project**: project instructions, knowledge files (rules, sty
 | D19 | 2026-11-26 | Licenses: CC BY 4.0 for documents, MIT for tools. (Q8) |
 | D20 | 2026-11-26 | v2 lives in a new `outline-to-deck` repository; the old repository is tagged `v1-workshop`. (Q9) |
 | D21 | 2026-11-26 | Start with at most half of a section's slides carrying a layout and up to two layouts per slide; revisit in testing. (Q10) |
+| D23 | 2026-11-26 | Any reliable CDN is fine, and the two libraries may use different ones (amends D15). Reveal.js loads from jsDelivr first, because its files are byte-identical to the npm copies `check-deck.py` tests (cdnjs serves its own minified builds); cdnjs is the fallback. Mermaid loads from cdnjs first (identical to npm), jsDelivr second. Order is stored in `tools/pins.json`. |
 | D22 | 2026-11-26 | Mermaid's `look` is a per-style setting. Base and Field Guide use `classic` (the new look adds node shadows, which Field Guide forbids). See `docs/M0-FINDINGS.md`. |
 
 ---

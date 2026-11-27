@@ -1,8 +1,12 @@
 {
-  "_comment": "Library pins for every deck. Single source for assemble-deck.py, check-deck.py and the docs. Fill or refresh the sri fields with: python3 tools/update-pins.py",
+  "_comment": "Library pins for every deck. Single source for assemble-deck.py, check-deck.py and the docs. 'order' lists the CDN tried first, then the fallback; each URL has its own SRI hash. Reveal loads from jsDelivr first because those files are byte-identical to the npm copies check-deck.py tests. Refresh hashes with: python3 tools/update-pins.py",
   "libraries": {
     "reveal": {
       "version": "6.0.2",
+      "order": [
+        "jsdelivr",
+        "cdnjs"
+      ],
       "files": {
         "reset_css": {
           "kind": "css",
@@ -58,6 +62,10 @@
     },
     "mermaid": {
       "version": "12.3.0",
+      "order": [
+        "cdnjs",
+        "jsdelivr"
+      ],
       "load": "only when the deck contains a diagram",
       "files": {
         "core_js": {
