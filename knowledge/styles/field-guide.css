@@ -1,0 +1,36 @@
+/* Field Guide style (STYLE-FIELD-GUIDE.md). Loaded after runtime/base.css; overrides only. */
+:root{
+  --ink:#1E2B2E; --surface-alt:#E6F0EC; --line:#D5DDD9; --caption:#5C6B67;
+  --accent:#1F5C4F; --accent-tint:#E6F0EC; --connector:#5C6B67; --emphasis:#1F5C4F;
+  --series-1:#1F5C4F; --series-2:#2F6F9F; --series-3:#E0A21B; --series-4:#C8501F; --series-5:#4B5563;
+  --outline-color:#D5DDD9;
+  --callout-note:#1F5C4F; --callout-note-tint:#E6F0EC; --callout-note-text:#1F5C4F;
+  --callout-tip:#E0A21B; --callout-tip-tint:#FDF3DC; --callout-tip-text:#7A5200;
+  --callout-remember:#2F6F9F; --callout-remember-tint:#E4EEF6; --callout-remember-text:#25597F;
+  --callout-watchout:#C8501F; --callout-watchout-tint:#FBE6DD; --callout-watchout-text:#A63F14;
+  --callout-underthehood:#4B5563; --callout-underthehood-tint:#EEF0F3; --callout-underthehood-text:#4B5563;
+  --callout-fieldnote:#3E7D3A; --callout-fieldnote-tint:#E7F2E4; --callout-fieldnote-text:#2F6A2C;
+  --spruce-deep:#16443A;
+  --font-heading:"Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-body:"Avenir Next",Avenir,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --h2-size:1.32em;
+  --mermaid-look:"classic";
+  --label-recap:"Trail recap"; --label-recap-next:"Next trail:"; --label-more:"more on this trail";
+}
+/* Title slide: deep spruce with a contour pattern (Claude draws the SVG as .decor) */
+.reveal .slides section.cover{background:var(--spruce-deep)}
+.reveal .cover h1{color:#fff}
+.reveal .cover .series{color:var(--accent-tint)}
+.reveal .cover .series::before{display:none}
+.reveal .cover .lead,.reveal .cover .presenter{color:#CFE3DB}
+/* Trail marker: a notched blaze */
+.reveal .marker{padding-bottom:.18em;clip-path:polygon(0 0,100% 0,100% 88%,62% 88%,50% 100%,38% 88%,0 88%)}
+.reveal .more{color:var(--accent)}
+/* Quick check answer in sky */
+.reveal .answer{background:var(--callout-remember-tint)}
+.reveal .answer .answer__label{color:var(--callout-remember-text)}
+.reveal .st-label{color:var(--callout-remember-text)}
+.reveal section[data-type="myth-vs-fact"] .st-label{color:var(--callout-watchout-text)}
+.reveal section[data-type="recap"] .st-label{color:var(--callout-fieldnote-text)}
+/* Topic slides: callouts sit on white */
+.reveal .topic .callout__body{background:var(--surface)}

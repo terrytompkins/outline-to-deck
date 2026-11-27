@@ -1,0 +1,52 @@
+/* Toons style (STYLE-TOONS.md). Loaded after runtime/base.css; overrides only.
+   An original classic-cartoon look: no studio characters, logos, title cards or catchphrases. */
+:root{
+  --ink:#1A1A1A; --surface:#FFF8E7; --surface-alt:#FFD93D; --line:#CDBB86; --caption:#4A4A4A;
+  --accent:#1B5FC4; --accent-tint:#DCEAFF; --connector:#1A1A1A; --emphasis:#1B5FC4;
+  --series-1:#D4271F; --series-2:#1B5FC4; --series-3:#FFD93D; --series-4:#17792F; --series-5:#6B3FB5;
+  --callout-note:#4A4A4A; --callout-note-tint:#EFEAE0; --callout-note-text:#333333;
+  --callout-tip:#FFD93D; --callout-tip-tint:#FFF1B0; --callout-tip-text:#7A5200;
+  --callout-remember:#1B5FC4; --callout-remember-tint:#DCEAFF; --callout-remember-text:#12479A;
+  --callout-watchout:#D4271F; --callout-watchout-tint:#FFE3DF; --callout-watchout-text:#A3160F;
+  --callout-underthehood:#6B3FB5; --callout-underthehood-tint:#EDE3FA; --callout-underthehood-text:#54308F;
+  --callout-fieldnote:#17792F; --callout-fieldnote-tint:#DDF4E3; --callout-fieldnote-text:#136B30;
+  --red:#D4271F; --orange:#FF7A1A;
+  --radius:14px; --outline-width:3px; --outline-color:#1A1A1A; --shadow:4px 4px 0 #1A1A1A;
+  --font-heading:"Marker Felt","Chalkboard SE","Comic Sans MS","Comic Neue",system-ui,sans-serif;
+  --font-body:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+  --h2-size:1.32em;
+  --mermaid-look:"classic"; --mermaid-border:#1A1A1A; --mermaid-stroke-width:2.5px;
+  --label-recap:"Quick recap"; --label-recap-next:"Up next:"; --label-more:"More below!";
+}
+/* Title slide: red sunburst with a cream card */
+.reveal .slides section.cover{background:repeating-conic-gradient(from 0deg at 50% 60%,var(--red) 0 10deg,var(--orange) 10deg 20deg)}
+.reveal .slides section.cover>*:not(.decor):not(aside){position:relative}
+.reveal .slides section.cover{padding:150px 140px 72px}
+.reveal .cover .cover__card{background:#FFF8E7;border:5px solid var(--ink);box-shadow:12px 12px 0 var(--ink);border-radius:22px;padding:40px 48px}
+.reveal .cover .series{display:inline-block;background:var(--surface-alt);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:.15em .8em}
+.reveal .cover .series::before{display:none}
+.reveal .cover h1{color:var(--ink);text-shadow:4px 4px 0 var(--surface-alt);font-family:var(--font-heading)}
+.reveal .cover .lead,.reveal .cover .presenter{color:var(--ink)}
+/* Top-level slides: halftone dots on yellow; starburst badge */
+.reveal .slides section.topic{background-color:var(--surface-alt);background-image:radial-gradient(#F2C300 1.6px,transparent 1.7px);background-size:18px 18px}
+.reveal .marker{background:var(--red);color:#fff;min-width:1.9em;height:1.9em;border-radius:0;
+  clip-path:polygon(50% 0,61% 17%,79% 9%,79% 29%,98% 32%,87% 50%,98% 68%,79% 71%,79% 91%,61% 83%,50% 100%,39% 83%,21% 91%,21% 71%,2% 68%,13% 50%,2% 32%,21% 29%,21% 9%,39% 17%)}
+.reveal ol.agenda-list .marker{font-size:.8em}
+.reveal .num{background:var(--surface-alt);color:var(--ink);border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.reveal .more{color:var(--ink)}
+.reveal footer .asof{color:var(--ink)}
+.reveal .unverified{background:#ECECEC;color:#555555}
+.reveal ul>li::before{border-color:var(--red);background:var(--red)}
+.reveal ol.steps>li::before{background:var(--red);color:#fff;border:2px solid var(--ink)}
+.reveal th{color:var(--accent);border-bottom:3px solid var(--ink)}
+.reveal figure.embed iframe{border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.reveal .progress{color:var(--red)}
+/* Callouts are speech bubbles: a tail pointing up toward the heading */
+.reveal .callout{position:relative;overflow:visible;margin-top:1.2em}
+.reveal .callout__tab{border-radius:calc(var(--radius) - 3px) 0 0 calc(var(--radius) - 3px)}
+.reveal .callout__body{border-radius:0 calc(var(--radius) - 3px) calc(var(--radius) - 3px) 0}
+.reveal .callout::before{content:"";position:absolute;left:90px;top:-17px;width:22px;height:16px;background:var(--ink);clip-path:polygon(0 100%,100% 100%,30% 0)}
+.reveal .callout::after{content:"";position:absolute;left:94px;top:-10px;width:14px;height:11px;background:var(--ct);clip-path:polygon(0 100%,100% 100%,30% 0)}
+.reveal .topic .callout__body{background:#fff}
+.reveal .topic .callout::after{background:#fff}
+.reveal h1,.reveal h2,.reveal h3,.reveal .st-label,.reveal .tiy,.reveal .callout__label{font-family:var(--font-heading)}

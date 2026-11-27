@@ -1,0 +1,18 @@
+<section id="s4">
+<section class="topic" data-number="4">
+  <h2>Phase 2: the deck</h2>
+  <ul>
+    <li>One self-contained HTML file; Reveal.js and Mermaid from pinned CDN versions.</li>
+    <li>Build horizontal slides first, then vertical slides by priority.</li>
+    <li>Verify every slide before calling it done.</li>
+  </ul>
+</section>
+<section data-number="4.1">
+  <h3>Verify every slide</h3>
+  <ul>
+    <li>Visible, no overflow, no footer collision, diagrams rendered, no console errors.</li>
+    <li>Then look at screenshots.</li>
+  </ul>
+  <pre class="code"><code>python3 tools/check-deck.py deck.html --shots shots</code></pre>
+</section>
+</section>
