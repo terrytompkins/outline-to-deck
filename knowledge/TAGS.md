@@ -34,10 +34,12 @@ Square brackets are a closed vocabulary: only the tags in this file, the audienc
 | heading | slide-type tags per heading | 1 |
 | slide | callouts per slide | 1 |
 | slide | layouts per slide | 2 |
-| slide | `Diagram:` blocks per slide | 1 |
+| slide | `Diagram:` blocks per slide | 2 |
 | section | share of slides with a layout | 0.5 |
 | deck | share of vertical slides with no callout, at least | 0.5 |
 | deck | `WATCHOUT` on consecutive slides | no |
+
+The layout and diagram limits per slide are **fit limits**: when two layouts or two diagrams don't fit at a readable size, Phase 2 moves the second one to a "(continued)" slide and records it in `OUTPUT-NOTES.md`. The other limits are rules the linter enforces.
 
 ## 3. Working aids (outline only; always stripped)
 
@@ -136,7 +138,7 @@ Reserved: `[Demo]` arrives in v2.1. Until then the linter reports it as unknown.
 Notes:
 
 - **`Layout:`** sits on its own line directly above an ordinary bullet list; `LAYOUTS.md` lists the names, options, data shapes, limits and fallbacks.
-- **`Diagram:`** is the author-facing part. Presenters never write Mermaid: to change a diagram they edit the sentence or ask in words, and Claude rewrites the block. Limits: about 9 nodes, labels ≤ 6 words, emphasis only through the classes `key`, `good` and `warn`.
+- **`Diagram:`** is the author-facing part. Presenters never write Mermaid: to change a diagram they edit the sentence or ask in words, and Claude rewrites the block. Limits: about 9 nodes, labels ≤ 6 words, emphasis only through the classes `key`, `good` and `warn`. Two diagrams may share a slide when seeing them side by side is the point (a before-and-after, say); keep each to about 5 nodes.
 - **`Suggested visual:`** is for illustrations. For real numbers, use a `chart` block instead, so the data is checkable.
 - **`Image:`** Claude never downloads images from the web for a deck. Every image needs `Alt:` text.
 
