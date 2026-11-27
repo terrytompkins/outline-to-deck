@@ -38,8 +38,8 @@ Unzip, then work from the unzipped folder:
     npm install --no-audit --no-fund          # local Reveal.js and Mermaid copies for the checker
     pip install playwright && playwright install chromium   # if not already installed
 
-Put the presentation's OUTLINE.md and BRIEF.md in this folder (read them with project_read and
-copy them here exactly), then:
+Put the presentation's OUTLINE.md and BRIEF.md in this folder, and the active STYLE-*.md in
+knowledge/styles/ (read them with project_read and copy them here exactly), then:
 
     python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge
     python3 tools/assemble-deck.py build --fragments frags --style STYLE --outline OUTLINE.md --out deck.html

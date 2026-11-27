@@ -57,6 +57,7 @@ CODES = {
     "W117": "Missing outline part",
     "W118": "Slide-type field outside its limits",
     "W119": "More than one emphasized item in a layout",
+    "W120": "Tag that the active style renders more simply (a degrade)",
     "I201": "Layout label/detail splits",
     "I202": "Unknown layout option (ignored)",
     "I203": "Content bullets without an origin tag",
@@ -204,6 +205,11 @@ class Linter:
             self.add("W101", callouts[1].line, f"{len(callouts)} callouts on this slide; the limit is {int(self.reg.limits.get('callouts-per-slide', 1))}.", sec)
 
         # slide types
+        if sec.slide_type in self.reg.degrades:
+            self.add("W120", sec.line, f"The active style renders [{sec.slide_type}] as: {self.reg.degrades[sec.slide_type]}.", sec)
+        for b in blocks:
+            if b.kind == "key" and b.key in self.reg.degrades:
+                self.add("W120", b.line, f"The active style renders {b.key}: as: {self.reg.degrades[b.key]}.", sec)
         if sec.slide_type in self.reg.slide_types:
             st["slide_types"][sec.slide_type] = st["slide_types"].get(sec.slide_type, 0) + 1
             self.check_slide_type(sec, text)

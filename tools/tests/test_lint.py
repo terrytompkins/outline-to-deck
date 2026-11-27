@@ -201,6 +201,32 @@ class LintTests(unittest.TestCase):
         self.assertEqual(len(stats["tbd"]), 1)
         self.assertEqual(len(stats["unverified"]), 1)
 
+    def test_placeholder_heading(self):
+        issues, stats = run(f"## 1. [TBD: first topic] [All] [Core]\n{MAIN}")
+        self.assertEqual(stats["horizontal"], 1)
+        self.assertNotIn("E014", {i["code"] for i in issues})
+
+    def test_starter_outline(self):
+        with open(os.path.join(KNOWLEDGE, "OUTLINE.md"), encoding="utf-8") as f:
+            issues, stats = lint.Linter(parse_outline(f.read(), REG), REG).run()
+        self.assertEqual([i for i in issues if i["severity"] == "error"], [])
+        self.assertEqual(stats["slides"], 2)
+
+    def test_degrade_warning(self):
+        import tempfile, shutil
+        with tempfile.TemporaryDirectory() as tmp:
+            for f in ("TAGS.md", "LAYOUTS.md"):
+                shutil.copy(os.path.join(KNOWLEDGE, f), tmp)
+            open(os.path.join(tmp, "STYLE-EXEC.md"), "w").write(
+                "# STYLE: Exec\n\n## 9. Degrades\n\n| Tag | Renders as |\n|---|---|\n| `[Quick check]` | A plain slide; the answer in notes |\n\n## 10. Frequency\n")
+            brief = os.path.join(tmp, "BRIEF.md")
+            open(brief, "w").write("- **Audience tags to use in the outline:** [All]\n- **Active style:** STYLE-EXEC.md\n")
+            reg = load_registry(tmp, brief_path=brief)
+            self.assertIn("Quick check", reg.degrades)
+            text = HEAD.format(rows="| 1 | A | 5 | Core |") + f"## 1. A [All]\n{MAIN}\n### 1.1 [Quick check] Q [All]\nQuestion: a\nAnswer: b\n" + TAIL
+            issues, _ = lint.Linter(parse_outline(text, reg), reg).run()
+            self.assertIn("W120", {i["code"] for i in issues})
+
     def test_code_block_tags_ignored(self):
         self.assertNotIn("E001", codes(f"## 1. A [All]\n{MAIN}\n### 1.1 B [All]\n```python\nx = [Foo]\n```\n"))
 

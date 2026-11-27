@@ -11,7 +11,7 @@ How to turn the approved `OUTLINE.md` into a deck. Tags are defined in `TAGS.md`
 
 ## 2. Build steps
 
-The tools come in `deck-tools.zip`, attached to the chat (see its `README-BUNDLE.md`). Unzip it, run `npm install` there, and copy `OUTLINE.md` and `BRIEF.md` into the folder exactly as `project_read` returns them.
+The tools come in `deck-tools.zip`, attached to the chat (see its `README-BUNDLE.md`). Unzip it, run `npm install` there, and copy `OUTLINE.md` and `BRIEF.md` into the folder, and the active style guide into `knowledge/styles/`, exactly as `project_read` returns them.
 
 1. **Confirm** the pinned library versions, the style, and anything the linter reports.
 2. **Lint:** `python3 tools/lint-outline.py OUTLINE.md --knowledge knowledge` (and again with `--json > lint.json` for the notes). Errors (E codes) stop the affected slide; fix them with the presenter first.

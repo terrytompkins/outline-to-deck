@@ -62,6 +62,7 @@ class Registry:
     audience: set = field(default_factory=set)          # from BRIEF.md, may be empty
     audience_known: bool = False
     brief: dict = field(default_factory=dict)           # parsed BRIEF.md fields
+    degrades: dict = field(default_factory=dict)        # tag -> how the active style renders it instead
 
     @property
     def field_keys(self) -> set:
@@ -131,7 +132,27 @@ def load_registry(knowledge_dir: str, brief_path: str | None = None) -> Registry
             reg.audience_known = True
     else:
         reg.brief = {}
+    style = reg.brief.get("style")
+    for cand in ((os.path.join(knowledge_dir, "styles", style), os.path.join(knowledge_dir, style)) if style else ()):
+        if os.path.exists(cand):
+            with open(cand, encoding="utf-8") as f:
+                reg.degrades = parse_degrades(f.read())
+            break
     return reg
+
+
+def parse_degrades(text: str) -> dict:
+    """The '## 9. Degrades' table of a style guide: {tag: renders as}."""
+    m = re.search(r"^## \d+\. Degrades\s*\n(.*?)(?=^## |\Z)", text, re.S | re.M)
+    out = {}
+    if not m:
+        return out
+    for line in m.group(1).split("\n"):
+        cells = _cells(line) if line.strip().startswith("|") else []
+        if len(cells) >= 2 and "`" in cells[0] and not cells[0].startswith("[e.g."):
+            for tag in re.findall(r"`([^`]+)`", cells[0]):
+                out[tag.strip("[]").rstrip(":")] = cells[1]
+    return out
 
 
 def parse_brief(text: str) -> dict:
@@ -143,6 +164,9 @@ def parse_brief(text: str) -> dict:
     m = re.search(r"\*\*Session length:\*\*\s*(\d+)", text)
     if m:
         out["session_minutes"] = int(m.group(1))
+    m = re.search(r"\*\*Active style:\*\*\s*`?(STYLE-[\w-]+\.md)", text)
+    if m:
+        out["style"] = m.group(1)
     m = re.search(r"\*\*Layout use:\*\*\s*(encourage|sparingly|off)", text, re.I)
     if m:
         out["layout_use"] = m.group(1).lower()
@@ -269,7 +293,7 @@ def _parse_heading(level_marks: str, raw: str, line: int) -> Section:
     # trailing tags
     while True:
         m = re.search(r"\s*\[([^\]\n]+)\]\s*$", text)
-        if not m:
+        if not m or re.match(r"(TBD|UNVERIFIED)\b", m.group(1)):   # placeholders are content, not tags
             break
         sec.tags.insert(0, m.group(1))
         text = text[:m.start()]
@@ -279,7 +303,7 @@ def _parse_heading(level_marks: str, raw: str, line: int) -> Section:
         text = m.group(3)
         sec._top_dot = bool(m.group(2))
     m = re.match(r"\[([^\]\n]+)\]\s*(.*)$", text)
-    if m:
+    if m and not re.match(r"(TBD|UNVERIFIED)\b", m.group(1)):
         sec.slide_type = m.group(1)
         text = m.group(2)
     sec.title = text.strip()
